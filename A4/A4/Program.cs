@@ -35,6 +35,14 @@ namespace A4
 
         public static long MaximizingLoot2(long capacity, long[] weights, long[] values)
         {
+            List<Loot> allLoots = new List<Loot>();
+            for (int i = 0; i < weights.Count(); i++)
+                allLoots.Add(new Loot(weights[i], values[i]));
+
+            List<Loot> sortedByUnitvalue = allLoots.OrderByDescending(l => l.UnitValue).ToList();
+
+            
+
             return 0;
         }
 
