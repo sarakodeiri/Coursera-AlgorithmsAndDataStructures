@@ -124,11 +124,30 @@ namespace A4
 
         public static string MaximizeSalary6(long n, long[] numbers)
         {
-            string answer = string.Empty;
-            List<long> allNumbers = new List<long>();
-            allNumbers = numbers.ToList();
+            for (int i = 0; i < n; i++)
+                for (int j = i + 1; j < n; j++)
+                    if (sortedByMSD(numbers[i], numbers[j]))
+                        (numbers[i], numbers[j]) = (numbers[j], numbers[i]);
+            
+            return string.Join("", numbers);
+        }
 
-            return "0";
+        //Using a comment in the forum linked in the assignment doc, saying the following:
+        //In this problem 2 >= 21 because the statement (221 >= 212) is true but (212>=221) is false.
+
+        public static bool sortedByMSD(long a, long b)
+        {
+            long digitsA = a.ToString().Length;
+            long digitsB = b.ToString().Length;
+
+            long ab = a * (long)Math.Pow(10, digitsB) + b;
+            long ba = b * (long)Math.Pow(10, digitsA) + a;
+
+            if (ab <= ba)
+                return true;
+            
+            else
+                return false;
         }
 
         public static string ProcessMaximizeSalary6(string inStr) =>
@@ -136,7 +155,7 @@ namespace A4
 
         static void Main(string[] args)
         {
-            MaximizeNumberOfPrizePlaces5(6);
+           
         }
     }
 }
