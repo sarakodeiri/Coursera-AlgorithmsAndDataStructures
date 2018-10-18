@@ -91,12 +91,13 @@ namespace A4
             for (int i = 0; i < tenantCount; i++)
                 timePeriods.Add((startTimes[i], endTimes[i]));
 
-            timePeriods.OrderBy(e => e.endTime);
+            //timePeriods.OrderBy(e => e.endTime);
+            var sortedTime = timePeriods.OrderBy(e => e.Item1).ToList();
 
             long pointCount = 0;
 
-            for (int i = 0; i < tenantCount; i++)
-                if (timePeriods[i].endTime >= timePeriods[i + 1].startTime)
+            for (int i = 1; i < tenantCount; i++)
+                if (timePeriods[i-1].endTime >= timePeriods[i].startTime)
                     pointCount++;
 
             return pointCount;
@@ -168,7 +169,11 @@ namespace A4
 
         static void Main(string[] args)
         {
-           
+            long tenCount = 4;
+            long[] start = new long[] {4, 1, 2, 5};
+            long[] end = new long[] {7, 3, 5, 6};
+            CollectingSignatures4(tenCount, start, end);
+
         }
     }
 }
