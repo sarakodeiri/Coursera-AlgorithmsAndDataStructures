@@ -68,7 +68,15 @@ namespace A4
 
         public static long MaximizingOnlineRevenue3(long slotCount, long[] adRevenue, long[] averageDailyClick)
         {
-            return 0;
+            long maxRevenue = 0;
+
+            Array.Sort(adRevenue);
+            Array.Sort(averageDailyClick);
+
+            for (int i = 0; i < adRevenue.Count(); i++)
+                maxRevenue += adRevenue[i] * averageDailyClick[i];
+
+            return maxRevenue;
         }
 
         public static string ProcessMaximizingOnlineRevenue3(string inStr) =>
@@ -88,7 +96,23 @@ namespace A4
 
         public static long[] MaximizeNumberOfPrizePlaces5(long n)
         {
-            return new long[] { 0 };
+            List<long> numbers = new List<long>();
+
+            for (int i=1; i < n; i++)
+            {
+                if (n-i < i++)
+                {
+                    numbers.Add(i);
+                    n -= i;
+                }
+
+                else
+                {
+                    numbers.Add(n);
+                }
+            }
+
+            return numbers.ToArray();
         }
 
         public static string ProcessMaximizeNumberOfPrizePlaces5(string inStr) =>
@@ -98,6 +122,10 @@ namespace A4
 
         public static string MaximizeSalary6(long n, long[] numbers)
         {
+            string answer = string.Empty;
+            List<long> allNumbers = new List<long>();
+            allNumbers = numbers.ToList();
+
             return "0";
         }
 
