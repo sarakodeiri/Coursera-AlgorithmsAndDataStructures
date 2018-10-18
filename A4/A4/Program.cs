@@ -98,9 +98,10 @@ namespace A4
         {
             List<long> numbers = new List<long>();
 
-            for (int i=1; i < n; i++)
+            for (int i=1; i <= n; i++)
             {
-                if (n-i < i++)
+
+                if (n-i >= i+1)
                 {
                     numbers.Add(i);
                     n -= i;
@@ -109,6 +110,7 @@ namespace A4
                 else
                 {
                     numbers.Add(n);
+                    break;
                 }
             }
 
@@ -134,7 +136,7 @@ namespace A4
 
         static void Main(string[] args)
         {
-            ChangingMoney1(28);
+            MaximizeNumberOfPrizePlaces5(6);
         }
     }
 }
