@@ -86,7 +86,20 @@ namespace A4
 
         public static long CollectingSignatures4(long tenantCount, long[] startTimes, long[] endTimes)
         {
-            return 0;
+            var timePeriods = new List<(long startTime, long endTime)>();
+
+            for (int i = 0; i < tenantCount; i++)
+                timePeriods.Add((startTimes[i], endTimes[i]));
+
+            timePeriods.OrderBy(e => e.endTime);
+
+            long pointCount = 0;
+
+            for (int i = 0; i < tenantCount; i++)
+                if (timePeriods[i].endTime >= timePeriods[i + 1].startTime)
+                    pointCount++;
+
+            return pointCount;
         }
 
         public static string ProcessCollectingSignatures4(string inStr) =>
