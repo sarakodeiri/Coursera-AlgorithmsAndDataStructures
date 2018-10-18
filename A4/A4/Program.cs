@@ -39,11 +39,26 @@ namespace A4
             for (int i = 0; i < weights.Count(); i++)
                 allLoots.Add(new Loot(weights[i], values[i]));
 
-            List<Loot> sortedByUnitvalue = allLoots.OrderByDescending(l => l.UnitValue).ToList();
+            List<Loot> sortedLoots = allLoots.OrderByDescending(l => l.UnitValue).ToList();
 
-            
+            double maximumValueFitted = 0;
 
-            return 0;
+            for (int i=0; capacity != 0; i++)
+            {
+                if (sortedLoots[i].Weight < capacity)
+                {
+                    maximumValueFitted += sortedLoots[i].Value;
+                    capacity -= sortedLoots[i].Weight;
+                }
+
+                else
+                {
+                    maximumValueFitted += capacity*sortedLoots[i].UnitValue;
+                    capacity = 0;
+                }
+            }
+
+            return (long) maximumValueFitted;
         }
 
         public static string ProcessMaximizingLoot2(string inStr) =>

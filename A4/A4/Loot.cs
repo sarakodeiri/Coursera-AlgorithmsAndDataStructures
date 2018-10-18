@@ -10,9 +10,9 @@ namespace A4
     {
         public long Weight;
         public long Value;
-        public long UnitValue
+        public double UnitValue
         {
-            get { return (Value / Weight); }
+            get { return (double) Value / Weight; }
             set { }
         }
 
