@@ -12,7 +12,20 @@ namespace A4
 
         public static long ChangingMoney1(long money)
         {
-            return 0;
+            int tenCoins = 0;
+            int fiveCoins = 0;
+            //int oneCoins = 0;
+            while(money - 10 >= 0)
+            {
+                tenCoins++;
+                money -= 10;
+            }
+            while (money - 5 >= 0)
+            {
+                fiveCoins++;
+                money -= 5;
+            }
+            return tenCoins+fiveCoins+money;
         }
 
         public static string ProcessChangingMoney1(string inStr) =>
@@ -70,6 +83,7 @@ namespace A4
 
         static void Main(string[] args)
         {
+            ChangingMoney1(28);
         }
     }
 }

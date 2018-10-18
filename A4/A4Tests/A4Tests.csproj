@@ -52,7 +52,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
       <ItemGroup>
@@ -69,6 +68,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\TestCommon\TestCommon.csproj">
+      <Project>{c39ff0c4-6960-42ad-8e2c-d2cafe850a52}</Project>
+      <Name>TestCommon</Name>
+    </ProjectReference>
     <ProjectReference Include="..\A4\A4.csproj">
       <Project>{621F9736-EA0E-413D-B0C4-DBC530FF8D8A}</Project>
       <Name>A4</Name>
