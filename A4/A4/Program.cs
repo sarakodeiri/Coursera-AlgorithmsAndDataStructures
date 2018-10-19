@@ -8,30 +8,42 @@ namespace A4
 {
     public class Program
     {
-        //First Question
+        /// <summary>
+        /// This method tells us how many 1, 2, 5 coins we need to change our money.
+        /// </summary>
+        /// <param name="money">The money we want to turn to change</param>
+        /// <returns>Total amount of coins required</returns>
 
         public static long ChangingMoney1(long money)
         {
-            int tenCoins = 0;
-            int fiveCoins = 0;
-            //int oneCoins = 0;
-            while(money - 10 >= 0)
+            long coins = 0;
+
+            while (money - 10 >= 0)
             {
-                tenCoins++;
+                coins++;
                 money -= 10;
             }
             while (money - 5 >= 0)
             {
-                fiveCoins++;
+                coins++;
                 money -= 5;
             }
-            return tenCoins+fiveCoins+money;
+
+            coins += money;
+
+            return coins;
         }
 
         public static string ProcessChangingMoney1(string inStr) =>
             TestCommon.TestTools.Process(inStr, (Func<long, long>) ChangingMoney1);
         
-        //Second Question
+        /// <summary>
+        /// Maximum value a thief can steal using a bag that has a specific capacity.
+        /// </summary>
+        /// <param name="capacity">Const capacity of the bag</param>
+        /// <param name="weights">The weight of each item ai</param>
+        /// <param name="values">The value of each item ai</param>
+        /// <returns>Most value the thief can steal with that bag</returns>
 
         public static long MaximizingLoot2(long capacity, long[] weights, long[] values)
         {
@@ -39,7 +51,7 @@ namespace A4
             for (int i = 0; i < weights.Count(); i++)
                 allLoots.Add(new Loot(weights[i], values[i]));
 
-            List<Loot> sortedLoots = allLoots.OrderByDescending(l => l.UnitValue).ToList();
+            List<Loot> sortedLoots = allLoots.OrderByDescending(u => u.UnitValue).ToList();
 
             double maximumValueFitted = 0;
 
@@ -65,7 +77,13 @@ namespace A4
         public static string ProcessMaximizingLoot2(string inStr) =>
             TestCommon.TestTools.Process(inStr, (Func<long, long[], long[], long>)MaximizingLoot2);
 
-        //Third Question
+        /// <summary>
+        /// Making the most out of click-on ads
+        /// </summary>
+        /// <param name="slotCount">number of empty slots available</param>
+        /// <param name="adRevenue">revenue of each ad ai</param>
+        /// <param name="averageDailyClick">average clicks on each revenue bi</param>
+        /// <returns>most money we can make out of putting the ads in the right places</returns>
 
         public static long MaximizingOnlineRevenue3(long slotCount, long[] adRevenue, long[] averageDailyClick)
         {
@@ -83,7 +101,13 @@ namespace A4
         public static string ProcessMaximizingOnlineRevenue3(string inStr) =>
             TestCommon.TestTools.Process(inStr, (Func<long, long[], long[], long>)MaximizingOnlineRevenue3);
 
-        //Forth Question
+        /// <summary>
+        /// minimum amount of visits to appartments who are home at different times
+        /// </summary>
+        /// <param name="tenantCount">number of people we have to meet</param>
+        /// <param name="startTimes">tenant i is home from starttimes[i]</param>
+        /// <param name="endTimes">tenant i is home till endtimes[i]</param>
+        /// <returns></returns>
 
         public static long CollectingSignatures4(long tenantCount, long[] startTimes, long[] endTimes)
         {
@@ -114,7 +138,11 @@ namespace A4
         public static string ProcessCollectingSignatures4(string inStr) =>
             TestCommon.TestTools.Process(inStr, (Func<long, long[], long[], long>)CollectingSignatures4);
 
-        //Fifth Question
+        /// <summary>
+        /// Giving children different prizes. Maximising the number of children we can give prizes to.
+        /// </summary>
+        /// <param name="n">number of prizes we have</param>
+        /// <returns>maximum number of childrem we can give different prizes to</returns>
 
         public static long[] MaximizeNumberOfPrizePlaces5(long n)
         {
@@ -142,7 +170,12 @@ namespace A4
         public static string ProcessMaximizeNumberOfPrizePlaces5(string inStr) =>
             TestCommon.TestTools.Process(inStr, (Func<long, long[]>)MaximizeNumberOfPrizePlaces5);
 
-        //Sixth Question
+        /// <summary>
+        /// Making the biggest number possible using separate cards with numbers of different digits on them.
+        /// </summary>
+        /// <param name="n">number of cards we have</param>
+        /// <param name="numbers">cards we have</param>
+        /// <returns>highest number possible to make with these cads</returns>
 
         public static string MaximizeSalary6(long n, long[] numbers)
         {
@@ -177,10 +210,6 @@ namespace A4
 
         static void Main(string[] args)
         {
-            long tenCount = 4;
-            long[] start = new long[] {4, 1, 2, 5};
-            long[] end = new long[] {7, 3, 5, 6};
-            CollectingSignatures4(tenCount, start, end);
 
         }
     }
