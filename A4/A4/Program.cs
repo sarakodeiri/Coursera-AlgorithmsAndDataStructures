@@ -45,16 +45,17 @@ namespace A4
 
             for (int i=0; capacity != 0; i++)
             {
-                if (sortedLoots[i].Weight < capacity)
+                if (sortedLoots[i].Weight >= capacity)
                 {
-                    maximumValueFitted += sortedLoots[i].Value;
-                    capacity -= sortedLoots[i].Weight;
+                    maximumValueFitted += capacity * sortedLoots[i].UnitValue;
+                    capacity = 0;
+                    
                 }
 
                 else
                 {
-                    maximumValueFitted += capacity*sortedLoots[i].UnitValue;
-                    capacity = 0;
+                    maximumValueFitted += sortedLoots[i].Value;
+                    capacity -= sortedLoots[i].Weight;
                 }
             }
 
@@ -91,16 +92,23 @@ namespace A4
             for (int i = 0; i < tenantCount; i++)
                 timePeriods.Add((startTimes[i], endTimes[i]));
 
-            //timePeriods.OrderBy(e => e.endTime);
-            var sortedTime = timePeriods.OrderBy(e => e.Item1).ToList();
+            var sortedTime = timePeriods.OrderBy(e => e.endTime).ToList();
 
-            long pointCount = 0;
+            List<long> jointPoints = new List<long>();
+            long jointPoint = sortedTime[0].endTime;
+            jointPoints.Add(jointPoint);
 
-            for (int i = 1; i < tenantCount; i++)
-                if (timePeriods[i-1].endTime >= timePeriods[i].startTime)
-                    pointCount++;
+            for (int i = 1; i < sortedTime.Count(); i++)
+            {
+                if (!(jointPoint <= sortedTime[i].endTime && jointPoint >= sortedTime[i].startTime))
+                {
+                    jointPoint = sortedTime[i].endTime; // update the point to the end point of the current segment
+                    jointPoints.Add(jointPoint);
+                }
+                
+            }
 
-            return pointCount;
+            return jointPoints.Count();
         }
 
         public static string ProcessCollectingSignatures4(string inStr) =>
