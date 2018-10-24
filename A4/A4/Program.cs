@@ -206,7 +206,7 @@ namespace A4
         }
 
         public static string ProcessMaximizeSalary6(string inStr) =>
-            TestCommon.TestTools.Process(inStr, MaximizeSalary6);
+            TestCommon.TestTools.Process(inStr, (Func<long, long[], string>)MaximizeSalary6);
 
         static void Main(string[] args)
         {
