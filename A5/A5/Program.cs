@@ -19,7 +19,7 @@ namespace A5
         }
 
         public static string ProcessBinarySearch1(string inStr) =>
-            TestTools.Process(inStr, BinarySearch1);
+            TestTools.Process(inStr, (Func<long[], long[], long[]>) BinarySearch1);
 
 
 
