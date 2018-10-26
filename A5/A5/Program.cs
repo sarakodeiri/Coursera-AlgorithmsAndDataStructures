@@ -10,12 +10,48 @@ namespace A5
 {
     public class Program
     {
-        static void Main(string[] args) { }
+        static void Main(string[] args)
+        {
+            long[] a = new long[] { 1, 5, 8, 12, 13 };
+            long[] b = new long[] { 8, 1, 23, 1, 11 };
+            BinarySearch1(a, b);
+
+        }
 
         public static long[] BinarySearch1(long[] a , long [] b)
         {
             //write your code here
-            return new long[] { 0 };
+            
+            long[] answers = new long[b.Length];
+
+            for (int i = 0; i < answers.Length; i++)
+                answers[i] = -1;
+
+            for (int i=0; i < b.Length; i++)
+            {
+                long min = 0;
+                long max = a.Length - 1;
+                long mid;
+                long num = b[i];
+                while (min <= max)
+                {
+                    mid = (int)(((max + min) / 2) + 0.5);
+
+                    if (num == a[mid])
+                    {
+                        answers[i] = mid;
+                        break;
+                    }
+                    else if (a[mid] < num)
+                        min = mid + 1;
+                    
+                    else
+                        max = mid - 1;
+                }
+
+            }
+
+            return answers;
         }
 
         public static string ProcessBinarySearch1(string inStr) =>
