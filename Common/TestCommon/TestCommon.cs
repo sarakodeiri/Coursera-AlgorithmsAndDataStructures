@@ -39,7 +39,7 @@ namespace TestCommon
                 }
                 catch (Exception e)
                 {
-                    failedTests.Add($"Test failed for input {inFile}: {e.Message}");
+                    failedTests.Add($"Test failed for initArray {inFile}: {e.Message}");
                     Console.WriteLine($"Test Failed: {inFile}");
                 }
             }
