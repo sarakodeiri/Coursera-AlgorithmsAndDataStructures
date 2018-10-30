@@ -12,7 +12,12 @@ namespace A5
     {
         static void Main(string[] args)
         {
-            
+            long[] points = new long[] { 5, 3, 2, 3, 3};
+            long[] start = new long[] { 1, 2, 3 };
+            long[] end = new long[] { 5, 6, 4 };
+
+            OrganizingLottery5(points, start, end);
+
         }
 
         public static long[] BinarySearch1(long[] a , long [] b)
@@ -122,39 +127,56 @@ namespace A5
         public static string ProcessMajorityElement2(string inStr) =>
             TestTools.Process(inStr, (Func<long, long[], long>)MajorityElement2);
 
-        public static void QuickSort(long[] input, int lowIndex, int highIndex)
+       
+
+        public static void QuickSort(long[] array, long low, long high, long[] secondArray = null)
         {
-
-            if (highIndex <= lowIndex)
-                return;
-
-            int low = lowIndex;
-            int high = highIndex;
-            int i = lowIndex + 1;
-            int pivotIndex = lowIndex;
-            long pivotValue = input[pivotIndex];
-            
-            while (i <= high)
+            if (low < high)
             {
-                if (input[i] < pivotValue)
-                    (input[i++], input[low++]) = (input[low++], input[i++]);
-                
-                else if (pivotValue < input[i])
-                    (input[i], input[high--]) = (input[high--], input[i]);
-      
-                else
-                    i++;
+                var p = Partition(array, low, high, secondArray);
+                QuickSort(array, low, p.Item1 - 1, secondArray);
+                QuickSort(array, p.Item2 + 1, high, secondArray);
             }
-            
-            QuickSort(input, lowIndex, low - 1);
-            QuickSort(input, high + 1, highIndex);
         }
 
+        public static (long, long) Partition(long[] initArray, long low, long high, long[] equalToPivot = null)
+        {
+            long pivot = initArray[low], firstEqualIndex = low, lastEqualIndex = low;
 
+            for (long i = low + 1; i <= high; i++)
+            {
+                if (initArray[i] == pivot)
+                {
+                    (initArray[i], initArray[lastEqualIndex + 1]) = (initArray[lastEqualIndex + 1], initArray[i]);
+                    if (equalToPivot != null)
+                        (equalToPivot[i], equalToPivot[lastEqualIndex + 1]) = (equalToPivot[lastEqualIndex + 1], equalToPivot[i]);
+                    lastEqualIndex++;
+                }
+
+                if (initArray[i] < pivot)
+                {
+                    (initArray[i], initArray[lastEqualIndex + 1]) = (initArray[lastEqualIndex + 1], initArray[i]);
+                    (initArray[lastEqualIndex + 1], initArray[firstEqualIndex]) = (initArray[firstEqualIndex], initArray[lastEqualIndex + 1]);
+
+                    if (equalToPivot != null)
+                    {
+                        (equalToPivot[i], equalToPivot[lastEqualIndex + 1]) = (equalToPivot[lastEqualIndex + 1], equalToPivot[i]);
+                        (equalToPivot[lastEqualIndex + 1], equalToPivot[firstEqualIndex]) = (equalToPivot[firstEqualIndex], equalToPivot[lastEqualIndex + 1]);
+                    }
+                    firstEqualIndex++;
+
+                    if (lastEqualIndex <= firstEqualIndex)
+                        lastEqualIndex++;
+                }
+
+                
+            }
+            return (firstEqualIndex, lastEqualIndex);
+        }
 
         public static long[] ImprovingQuickSort3(long n, long[] a)
         {
-            QuickSort(a, 0, a.Length - 1);
+            QuickSort(a, 0, n - 1);
             return a;
         }
 
@@ -171,11 +193,45 @@ namespace A5
             TestTools.Process(inStr, (Func<long, long[], long>)NumberofinvCount4);
 
         public static long[] OrganizingLottery5(long[] points, long[] startSegments,
-            long[] endSegment)
+             long[] endSegment)
         {
-            //write your code here
-            return new long[] { 0 };
+            List<Tuple<long, int>> allInfo = new List<Tuple<long, int>>();
+            var pointsInfo = new Dictionary<long, long>();
+
+            for (int i = 0; i < startSegments.Length; i++)
+                allInfo.Add(Tuple.Create(startSegments[i], -1));
+
+            for (int i = 0; i < points.Length; i++)
+                if (!pointsInfo.ContainsKey(points[i]))
+                {
+                    pointsInfo.Add(points[i], 0);
+                    allInfo.Add(Tuple.Create(points[i], 0));
+                }
+
+            for (int i = 0; i < endSegment.Length; i++)
+                allInfo.Add(Tuple.Create(endSegment[i], 1));
+
+            allInfo = allInfo.OrderBy(i => i.Item1).ToList();
+
+            long segment = 0;
+            for (int i = 0; i < allInfo.Count; i++)
+            {
+                if (allInfo[i].Item2 == -1)
+                    segment++;
+                else if (allInfo[i].Item2 == 1)
+                    segment--;
+                else if (allInfo[i].Item2 == 0)
+                    if (pointsInfo[allInfo[i].Item1] == 0)
+                        pointsInfo[allInfo[i].Item1] = segment;
+            }
+
+            var answers = new List<long>();
+            foreach (var i in points)
+                answers.Add(pointsInfo[i]);
+
+            return answers.ToArray();
         }
+
 
         public static string ProcessOrganizingLottery5(string inStr) =>
             TestTools.Process(inStr,OrganizingLottery5);
@@ -189,11 +245,5 @@ namespace A5
         public static string ProcessClosestPoints6(string inStr) =>
            TestTools.Process(inStr, (Func<long, long[], long[], double>)
                ClosestPoints6);
-
-        
-
-
-       
-
     }
 }

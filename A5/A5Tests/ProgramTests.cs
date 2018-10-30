@@ -27,7 +27,7 @@ namespace A5.Tests
         }
 
 
-        [TestMethod()/*, Timeout(1000)*/]
+        [TestMethod(), Timeout(1000)]
         [DeploymentItem(@"TestData", "A5_TestData")]
         public void Graded_ImprovingQuickSort3Test()
         {
