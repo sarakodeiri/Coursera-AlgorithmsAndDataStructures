@@ -27,7 +27,7 @@ namespace A5.Tests
         }
 
 
-        [TestMethod(), Timeout(1000)]
+        [TestMethod()/*, Timeout(1000)*/]
         [DeploymentItem(@"TestData", "A5_TestData")]
         public void Graded_ImprovingQuickSort3Test()
         {
@@ -36,9 +36,9 @@ namespace A5.Tests
 
         [TestMethod(), Timeout(1000)]
         [DeploymentItem(@"TestData", "A5_TestData")]
-        public void Graded_NumberofInversions4Test()
+        public void Graded_NumberofinvCount4Test()
         {
-            TestTools.RunLocalTest("A5", Program.ProcessNumberofInversions4, "TD4");
+            TestTools.RunLocalTest("A5", Program.ProcessNumberofinvCount4, "TD4");
         }
 
         [TestMethod(), Timeout(1000)]

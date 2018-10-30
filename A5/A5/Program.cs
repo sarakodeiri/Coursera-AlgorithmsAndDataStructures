@@ -12,11 +12,7 @@ namespace A5
     {
         static void Main(string[] args)
         {
-            long[] a = new long[] { 2, 3, 10, 20, 9, 1, 1, 4, 2};
-            MergeSort(a);
-
-            for (int i=0; i<a.Length; i++)
-                Console.WriteLine(a[i]);
+            
         }
 
         public static long[] BinarySearch1(long[] a , long [] b)
@@ -58,70 +54,67 @@ namespace A5
             TestTools.Process(inStr, BinarySearch1);
 
 
+        public static (List<long>, long) MergeSort(List<long> a)
+        {
+            List<long> firstPart = new List<long>();
+            List<long> secondPart = new List<long>();
 
-        //private static (List<long>, long) MergeSort(List<long> unsorted)
-        //{
-        //    if (unsorted.Count <= 1)
-        //        return (unsorted, 0);
+            if (a.Count <= 1)
+                return (a, 0);
 
-        //    List<long> left = new List<long>();
-        //    List<long> right = new List<long>();
+            for (int i = 0; i < a.Count / 2; i++)
+                firstPart.Add(a[i]);
 
-        //    long mid = unsorted.Count() / 2;
+            for (int i = a.Count / 2; i < a.Count; i++)
+                secondPart.Add(a[i]);
 
-        //    for (long i = 0; i < mid; i++)  //Dividing the unsorted list
-        //        left.Add(unsorted[(int)i]);
+            var firstSorted = MergeSort(firstPart);
+            var secondSorted = MergeSort(secondPart);
 
-        //    for (long i = mid; i < unsorted.Count; i++)
-        //        right.Add(unsorted[(int)i]);
+            var merged = Merge(firstSorted.Item1, secondSorted.Item1);
+            return (merged.Item1, firstSorted.Item2 + secondSorted.Item2 + merged.Item2);
+        }
 
-        //    var leftMerge = MergeSort(left);
-        //    var rightMerge = MergeSort(right);
-        //    var finalResult = Merge(leftMerge.Item1, rightMerge.Item1);
+        public static (List<long>, long) Merge(List<long> left, List<long> right)
+        {
+            long invCount = 0;
+            List<long> sorted = new List<long>();
+            int l = 0, r = 0;
 
-        //    long allInvs = leftMerge.Item2 + rightMerge.Item2 + finalResult.Item2;
+            while (l < left.Count && r < right.Count)
+            {
+                if (left[l] > right[r])
+                {
+                    sorted.Add(right[r]);
+                    invCount += left.Count() - l;
+                    r++;
+                }
 
-        //    return (finalResult.Item1, allInvs);
-        //}
+                else
+                {
+                    sorted.Add(left[l]);
+                    l++;
+                }
 
-        //private static (List<long>, long) Merge(List<long> left, List<long> right)
-        //{
-        //    List<long> result = new List<long>();
-        //    long invCount = 0;
-        //    int l = 0, r = 0;
+            }
 
-        //    while (l < left.Count() && r < right.Count())
-        //    {
-        //        if (right[r] < left[l])
-        //        {
-        //            result.Add(right[r]);
-        //            invCount += left.Count() - 1;
-        //            r++;
-        //        }
-        //        else
-        //        {
-        //            result.Add(left[l]);
-        //            l++;
-        //        }
-        //    }
+            if (l < left.Count)
+                for (int i = l; i < left.Count; i++)
+                    sorted.Add(left[i]);
 
-        //    if (l < left.Count())
-        //        for (int i = l; l < left.Count(); l++)
-        //            result.Add(left[i]);
+            else if (r < right.Count)
+                for (int i = r; i < right.Count; i++)
+                    sorted.Add(right[i]);
 
-        //    else if (r < right.Count())
-        //        for (int i = r; r < left.Count(); r++)
-        //            result.Add(right[i]);
+            return (sorted, invCount);
+        }
 
-        //    return (result, invCount);
-
-        //}
 
         public static long MajorityElement2(long n, long[] a)
         {
-            MergeSort(a);
+            List<long> sorted = MergeSort(a.ToList()).Item1;
             for (int i = 0; i < n / 2; i++)
-                    if (a[i] == a[n / 2 + i])
+                    if (sorted[i] == sorted[(int)n / 2 + i])
                         return 1;
             return 0;
         }
@@ -129,28 +122,53 @@ namespace A5
         public static string ProcessMajorityElement2(string inStr) =>
             TestTools.Process(inStr, (Func<long, long[], long>)MajorityElement2);
 
-        
+        public static void QuickSort(long[] input, int lowIndex, int highIndex)
+        {
+
+            if (highIndex <= lowIndex)
+                return;
+
+            int low = lowIndex;
+            int high = highIndex;
+            int i = lowIndex + 1;
+            int pivotIndex = lowIndex;
+            long pivotValue = input[pivotIndex];
+            
+            while (i <= high)
+            {
+                if (input[i] < pivotValue)
+                    (input[i++], input[low++]) = (input[low++], input[i++]);
+                
+                else if (pivotValue < input[i])
+                    (input[i], input[high--]) = (input[high--], input[i]);
+      
+                else
+                    i++;
+            }
+            
+            QuickSort(input, lowIndex, low - 1);
+            QuickSort(input, high + 1, highIndex);
+        }
+
+
+
         public static long[] ImprovingQuickSort3(long n, long[] a)
         {
-            //write your code here 
-            
+            QuickSort(a, 0, a.Length - 1);
             return a;
         }
 
         public static string ProcessImprovingQuickSort3(string inStr) =>
             TestTools.Process(inStr, (Func<long, long[], long[]>)ImprovingQuickSort3);
 
-        public static long NumberofInversions4(long n, long[] a)
+        public static long NumberofinvCount4(long n, long[] a)
         {
-            //write your code here
-            List<long> aToList = new List<long>();
-            aToList = a.ToList();
-           // return MergeSort(aToList).Item2;
-            return 0;
+            long invCount = MergeSort(a.ToList()).Item2;
+            return invCount;
         }
 
-        public static string ProcessNumberofInversions4(string inStr) =>
-            TestTools.Process(inStr, (Func<long, long[], long>)NumberofInversions4);
+        public static string ProcessNumberofinvCount4(string inStr) =>
+            TestTools.Process(inStr, (Func<long, long[], long>)NumberofinvCount4);
 
         public static long[] OrganizingLottery5(long[] points, long[] startSegments,
             long[] endSegment)
@@ -172,75 +190,10 @@ namespace A5
            TestTools.Process(inStr, (Func<long, long[], long[], double>)
                ClosestPoints6);
 
-        public static void MergeSort(long[] initArray, long low, long high)
-        {
-            if (low < high)
-            {
-                long middle = (low / 2) + (high / 2);
-                MergeSort(initArray, low, middle);
-                MergeSort(initArray, middle + 1, high);
-                Merge(initArray, low, middle, high);
-            }
-        }
+        
 
-        public static void MergeSort(long[] initArray)
-        {
-            MergeSort(initArray, 0, initArray.Length - 1);
-        }
 
-        private static void Merge(long[] initArray, long low, long middle, long high)
-        {
-
-            long left = low;
-            long right = middle + 1;
-            long[] copyArray = new long[(high - low) + 1];
-
-            int index = 0;
-            long invCount = 0;
-
-            while ((left <= middle) && (right <= high)) // while none of the arrays are fully iterated
-            {
-                if (initArray[left] < initArray[right])
-                {
-                    copyArray[index] = initArray[left];
-                    left++;
-                }
-
-                else
-                {
-                    copyArray[index] = initArray[right];
-                    invCount += index - 1;    // ???????
-                    right++;
-                }
-                index++;
-            }
-
-            if (left <= middle)
-            {
-                while (left <= middle)
-                {
-                    copyArray[index] = initArray[left];
-                    left++;
-                    index++;
-                }
-            }
-
-            if (right <= high)
-            {
-                while (right <= high)
-                {
-                    copyArray[index] = initArray[right];
-                    right++;
-                    index++;
-                }
-            }
-
-            for (int i = 0; i < copyArray.Length; i++)
-
-                initArray[low + i] = copyArray[i];
-            
-
-        }
+       
 
     }
 }
