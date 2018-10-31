@@ -1,0 +1,6 @@
+<ItemGroup>
+    <Content Include="TestData\**">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  
