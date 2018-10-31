@@ -32,23 +32,23 @@ namespace A5
             {
                 long min = 0;
                 long max = a.Length - 1;
-                long mid;
+                long line;
                 long num = b[i];
                 while (min <= max)
                 {
-                    mid = (int)(((max + min) / 2) + 0.5);
+                    line = (int)(((max + min) / 2) + 0.5);
 
-                    if (num == a[mid])
+                    if (num == a[line])
                     {
-                        answers[i] = mid;
+                        answers[i] = line;
                         break;
                     }
 
-                    else if (a[mid] < num)
-                        min = mid + 1;
+                    else if (a[line] < num)
+                        min = line + 1;
                     
                     else
-                        max = mid - 1;
+                        max = line - 1;
                 }
 
             }
@@ -262,22 +262,73 @@ namespace A5
         public static string ProcessOrganizingLottery5(string inStr) =>
             TestTools.Process(inStr, (Func<long[], long[], long[], long[]>)OrganizingLottery5);
 
-        /// <summary>
-        /// Takes two points and calculates the distance between them
-        /// </summary>
-        /// <param name="pointa"></param>
-        /// <param name="pointb"></param>
-        /// <returns></returns>
+       /// <summary>
+       /// First helping function for Q6, calculates the distance between two points only
+       /// </summary>
+       /// <param name="pointa"></param>
+       /// <param name="pointb"></param>
+       /// <returns></returns>
         public static double TwoPointDistance((long, long) pointa, (long, long) pointb)
         {
             return Math.Sqrt(Math.Pow(pointa.Item1 - pointb.Item1, 2) + Math.Pow(pointa.Item2 - pointb.Item2, 2));
         }
 
         /// <summary>
+        /// Second helping function for Q6, calculates the minimum distance between at most 3 points.
+        /// </summary>
+        /// <param name="points"></param>
+        /// <returns></returns>
+        private static double DistanceForSmallQs(List<(long x, long y)> points)
+        {
+            double min = double.MaxValue;
+
+            for (int i = 0; i < points.Count; i++)
+                for (int j = i + 1; j < points.Count; j++)
+                {
+                    double dis = TwoPointDistance(points[i], points[j]);
+                    if (dis < min)
+                        min = dis;
+                }
+            return min;
+        }
+
+        /// <summary>
+        /// Third helping function for Q6, calculates the minimum distance for 4 or more points.
+        /// </summary>
+        /// <param name="points"></param>
+        /// <param name="firstIndex"></param>
+        /// <param name="lastIndex"></param>
+        /// <returns></returns>
+        public static double DistanceForLargeQs(List<(long, long)> points, int firstIndex, int lastIndex)
+        {
+            if (points.Count <= 3)
+                return DistanceForSmallQs(points);
+
+            if (firstIndex >= lastIndex)
+                return double.MaxValue;
+
+            int line = (firstIndex + lastIndex) / 2;
+
+            double leftDis = DistanceForLargeQs(points, firstIndex, line);
+            double rightDis = DistanceForLargeQs(points, line + 1, lastIndex);
+            double minDis = Math.Min(leftDis, rightDis);
+
+            List<(long, long)> middleSection = new List<(long, long)>();
+
+            for (int i = firstIndex; i <= lastIndex; i++)
+                if (Math.Abs(points[i].Item2 - points[line].Item2) < minDis)
+                    middleSection.Add(points[i]);
+
+            double middleSectionMinDis = DistanceForSmallQs(middleSection);
+
+            if (minDis < middleSectionMinDis)
+                middleSectionMinDis = minDis;
+
+            return middleSectionMinDis;
+        }
+
+        /// <summary>
         /// Implementation of the sixth question
-        /// important explanation: this algorithm is imcomplete and does not work properly for all five test cases. 
-        /// i used a switch case at the end of the implementation method JUST SO all tests would pass, so i could 
-        /// complete the pull request.
         /// </summary>
         /// <param name="n"></param>
         /// <param name="xPoints"></param>
@@ -285,52 +336,21 @@ namespace A5
         /// <returns></returns>
         public static double ClosestPoints6(long n, long[] xPoints, long[] yPoints)
         {
-            double Dis = double.MaxValue;
-
             List<(long, long)> points = new List<(long, long)>();
 
             for (int i = 0; i < n; i++)
-            {
-                var temp = (xPoints[i], yPoints[i]);
-                points.Add(temp);
-            }
+                points.Add((xPoints[i], yPoints[i]));
+            
 
-            points.OrderBy(i => i.Item1);
+            var sortedPoints = points.OrderBy(i => i.Item1).ToList();
+            
+            double finalResult = DistanceForLargeQs(sortedPoints, 0, sortedPoints.Count - 1);
 
-            for (int i = 0; i < n; i++)
-            {
-
-                for (int j = i + 1; j < n && points[j].Item1 - points[i].Item1 < Dis; j++)
-                {
-                    double temp = TwoPointDistance(points[i], points[j]);
-                    if (temp < Dis)
-                        Dis = temp;
-                }
-            }
-
-            double finalRes = Math.Round(Dis, 4);
-
-            switch (finalRes)
-            {
-                case 2.2361:
-                    finalRes = 1.4142;
-                    break;
-                case 35.0571:
-                    finalRes = 24.8395;
-                    break;
-                case 1:
-                    finalRes = 0;
-                    break;
-                default:
-                    break;
-            }
-
-            return finalRes;
+            return Math.Round(finalResult, 4);
         }
-
+        
         public static string ProcessClosestPoints6(string inStr) =>
-           TestTools.Process(inStr, (Func<long, long[], long[], double>)
-               ClosestPoints6);
-
+           TestTools.Process(inStr, (Func<long, long[], long[], double>) ClosestPoints6);
+        
     }
 }
