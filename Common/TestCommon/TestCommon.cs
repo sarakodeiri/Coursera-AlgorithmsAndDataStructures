@@ -9,6 +9,7 @@ namespace TestCommon
     public static class TestTools 
     {
         private static readonly char[] IgnoreChars = new char[] { '\n', '\r', ' ' };
+        private static readonly char[] NewLineChars = new char[] { '\n', '\r'};
 
         public static void RunLocalTest(string AssignmentName, Func<string,string> Processor, string TestDataName=null)
         {
@@ -50,20 +51,34 @@ namespace TestCommon
             Console.WriteLine($"All {inFiles.Length} tests passed.");
         }
 
+        public static string Process(string inStr, Func<string, string, long> longProcessor)
+        {
+            var toks = inStr.Split(IgnoreChars, StringSplitOptions.RemoveEmptyEntries);
+            return longProcessor(toks[0], toks[1]).ToString();
+        }
 
-        public static string Process(string inStr, Func<long, long> longProcessor)
+        public static string Process(string inStr, Func<string, long> longProcessor)
+        {            
+            return longProcessor(inStr.Trim(IgnoreChars)).ToString();
+        }
+
+
+        public static string Process(string inStr, 
+            Func<long, long> longProcessor)
         {
             long n = long.Parse(inStr);
             return longProcessor(n).ToString();
         }
 
-        public static string Process(string inStr, Func<long, long[]> longProcessor)
+        public static string Process(string inStr, 
+            Func<long, long[]> longProcessor)
         {
             long n = long.Parse(inStr);
             return string.Join("\n", longProcessor(n));
         }
 
-        public static string Process(string inStr, Func<long, long[], string> longProcessor)
+        public static string Process(string inStr, 
+            Func<long, long[], string> longProcessor)
         {
 
             var lines = inStr.Split(IgnoreChars, StringSplitOptions.RemoveEmptyEntries);
@@ -79,7 +94,8 @@ namespace TestCommon
             return result;
         }
 
-        public static string Process(string inStr, Func<long, long, long> longProcessor)
+        public static string Process(string inStr, 
+            Func<long, long, long> longProcessor)
         {
             long a, b;
             ParseTwoNumbers(inStr, out a, out b);
@@ -87,7 +103,11 @@ namespace TestCommon
         }
 
         public static string Process<_RetType>(
+<<<<<<< HEAD
             string inStr,
+=======
+            string inStr, 
+>>>>>>> master
             Func<long, long[], long[], _RetType> longProcessor)
         {
             List<long> list1 = new List<long>(),
@@ -128,13 +148,22 @@ namespace TestCommon
 
                 long[] firstLine = new long[line.Length];
 
+<<<<<<< HEAD
                 for (int i = 0; i < line.Length; i++)
+=======
+                for (int i=0; i < line.Length; i++)
+>>>>>>> master
                 {
                     firstLine[i] = long.Parse(line[i]);
                 }
 
+<<<<<<< HEAD
                 line = reader.ReadLine().Split(IgnoreChars,
                  StringSplitOptions.RemoveEmptyEntries);
+=======
+               line = reader.ReadLine().Split(IgnoreChars,
+                StringSplitOptions.RemoveEmptyEntries);
+>>>>>>> master
 
                 long[] secondLine = new long[line.Length];
                 for (int i = 0; i < line.Length; i++)
@@ -151,18 +180,55 @@ namespace TestCommon
             Func<long, long[], long> longProcessor)
         {
             var lines = inStr.Split(IgnoreChars, StringSplitOptions.RemoveEmptyEntries);
+<<<<<<< HEAD
             long count = long.Parse(lines.Take(1).First());
+=======
+            long count = long.Parse(lines.First());
+>>>>>>> master
             var numbers = lines.Skip(1)
                 .Select(n => long.Parse(n))
                 .ToArray();
 
+<<<<<<< HEAD
             Assert.AreEqual(count, numbers.Length);
 
             string result = longProcessor(numbers.Length, numbers).ToString();
+=======
+            string result = longProcessor(count, numbers).ToString();
+>>>>>>> master
             Assert.IsTrue(result.All(c => char.IsDigit(c)));
             return result;
         }
 
+<<<<<<< HEAD
+=======
+        private static IEnumerable<long[]> ParseInputArrays(string inStr)
+        {
+            var lines = inStr.Split(NewLineChars, StringSplitOptions.RemoveEmptyEntries);
+            foreach(var line in lines)
+                yield return 
+                    line.Split().Select(n => long.Parse(n)).ToArray();
+        }
+
+        public static string Process(
+            string inStr,
+            Func<long[], long[], long[], long> longProcessor
+            )
+        {
+            var lists = ParseInputArrays(inStr).ToArray();
+            return longProcessor(lists[0], lists[1], lists[2]).ToString();
+        }
+
+        public static string Process(
+            string inStr,
+            Func<long[], long[], long> longProcessor
+            )
+        {
+            var lists = ParseInputArrays(inStr).ToArray();
+            return longProcessor(lists[0], lists[1]).ToString();
+        }
+
+>>>>>>> master
         public static string Process(
             string inStr,
             Func<long, long[], long[]> longProcessor)
@@ -191,7 +257,11 @@ namespace TestCommon
             using (StringReader reader = new StringReader(inStr))
             {
                 firstLine = reader.ReadLine();
+<<<<<<< HEAD
                 string[] toks = firstLine.Split(IgnoreChars,
+=======
+                string[] toks = firstLine.Split(IgnoreChars, 
+>>>>>>> master
                     StringSplitOptions.RemoveEmptyEntries);
 
                 list1 = toks.Select(long.Parse).ToArray();
@@ -208,10 +278,18 @@ namespace TestCommon
             }
 
             return string.Join("\n",
+<<<<<<< HEAD
                 longProcessor(list1, list2.ToArray(), list3.ToArray()));
         }
 
         private static long ReadParallelArray(string inStr, List<long> list1, List<long> list2)
+=======
+                longProcessor(list1,list2.ToArray(),list3.ToArray()));
+        }
+
+        private static long ReadParallelArray(string inStr, 
+            List<long> list1, List<long> list2)
+>>>>>>> master
         {
             long firstLine;
             using (StringReader reader = new StringReader(inStr))
@@ -232,7 +310,8 @@ namespace TestCommon
             return firstLine;
         }
 
-        private static void ParseTwoNumbers(string inStr, out long a, out long b)
+        private static void ParseTwoNumbers(string inStr, 
+            out long a, out long b)
         {
             var toks = inStr.Split(IgnoreChars, StringSplitOptions.RemoveEmptyEntries);
             a = long.Parse(toks[0]);

@@ -12,11 +12,7 @@ namespace A5
     {
         static void Main(string[] args)
         {
-            long[] points = new long[] { 5, 3, 2, 3, 3};
-            long[] start = new long[] { 1, 2, 3 };
-            long[] end = new long[] { 5, 6, 4 };
-
-            OrganizingLottery5(points, start, end);
+            
 
         }
 
@@ -214,12 +210,15 @@ namespace A5
             allInfo = allInfo.OrderBy(i => i.Item1).ToList();
 
             long segment = 0;
+
             for (int i = 0; i < allInfo.Count; i++)
             {
                 if (allInfo[i].Item2 == -1)
                     segment++;
+
                 else if (allInfo[i].Item2 == 1)
                     segment--;
+
                 else if (allInfo[i].Item2 == 0)
                     if (pointsInfo[allInfo[i].Item1] == 0)
                         pointsInfo[allInfo[i].Item1] = segment;
