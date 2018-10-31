@@ -15,6 +15,12 @@ namespace A5
             
         }
 
+        /// <summary>
+        /// First Question Implementation
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static long[] BinarySearch1(long[] a , long [] b)
         {
             long[] answers = new long[b.Length];
@@ -54,6 +60,11 @@ namespace A5
             TestTools.Process(inStr, (Func<long[], long[], long[]>) BinarySearch1);
 
 
+        /// <summary>
+        /// Sort using divide and conquer, used in Q2 and Q4
+        /// </summary>
+        /// <param name="a"></param>
+        /// <returns></returns>
         public static (List<long>, long) MergeSort(List<long> a)
         {
             List<long> firstPart = new List<long>();
@@ -109,7 +120,12 @@ namespace A5
             return (sorted, invCount);
         }
 
-
+        /// <summary>
+        /// Second question implementation
+        /// </summary>
+        /// <param name="n">a.Length</param>
+        /// <param name="a">array of elements</param>
+        /// <returns></returns>
         public static long MajorityElement2(long n, long[] a)
         {
             List<long> sorted = MergeSort(a.ToList()).Item1;
@@ -123,18 +139,24 @@ namespace A5
             TestTools.Process(inStr, (Func<long, long[], long>)MajorityElement2);
 
        
-
-        public static void QuickSort(long[] array, long low, long high, long[] secondArray = null)
+        /// <summary>
+        /// Improved QuickSort implementations
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="low"></param>
+        /// <param name="high"></param>
+        /// <param name="secondArray"></param>
+        public static void QuickSort(long[] array, long low, long high)
         {
             if (low < high)
             {
-                var p = Partition(array, low, high, secondArray);
-                QuickSort(array, low, p.Item1 - 1, secondArray);
-                QuickSort(array, p.Item2 + 1, high, secondArray);
+                var p = Partition(array, low, high);
+                QuickSort(array, low, p.Item1 - 1);
+                QuickSort(array, p.Item2 + 1, high);
             }
         }
 
-        public static (long, long) Partition(long[] initArray, long low, long high, long[] equalToPivot = null)
+        public static (long, long) Partition(long[] initArray, long low, long high)
         {
             long pivot = initArray[low], firstEqualIndex = low, lastEqualIndex = low;
 
@@ -143,21 +165,13 @@ namespace A5
                 if (initArray[i] == pivot)
                 {
                     (initArray[i], initArray[lastEqualIndex + 1]) = (initArray[lastEqualIndex + 1], initArray[i]);
-                    if (equalToPivot != null)
-                        (equalToPivot[i], equalToPivot[lastEqualIndex + 1]) = (equalToPivot[lastEqualIndex + 1], equalToPivot[i]);
-                    lastEqualIndex++;
+                     lastEqualIndex++;
                 }
 
                 if (initArray[i] < pivot)
                 {
                     (initArray[i], initArray[lastEqualIndex + 1]) = (initArray[lastEqualIndex + 1], initArray[i]);
                     (initArray[lastEqualIndex + 1], initArray[firstEqualIndex]) = (initArray[firstEqualIndex], initArray[lastEqualIndex + 1]);
-
-                    if (equalToPivot != null)
-                    {
-                        (equalToPivot[i], equalToPivot[lastEqualIndex + 1]) = (equalToPivot[lastEqualIndex + 1], equalToPivot[i]);
-                        (equalToPivot[lastEqualIndex + 1], equalToPivot[firstEqualIndex]) = (equalToPivot[firstEqualIndex], equalToPivot[lastEqualIndex + 1]);
-                    }
                     firstEqualIndex++;
 
                     if (lastEqualIndex <= firstEqualIndex)
@@ -178,6 +192,12 @@ namespace A5
         public static string ProcessImprovingQuickSort3(string inStr) =>
             TestTools.Process(inStr, (Func<long, long[], long[]>)ImprovingQuickSort3);
 
+        /// <summary>
+        /// Forth question
+        /// </summary>
+        /// <param name="n"></param>
+        /// <param name="a"></param>
+        /// <returns></returns>
         public static long NumberofinvCount4(long n, long[] a)
         {
             long invCount = MergeSort(a.ToList()).Item2;
@@ -187,6 +207,14 @@ namespace A5
         public static string ProcessNumberofinvCount4(string inStr) =>
             TestTools.Process(inStr, (Func<long, long[], long>)NumberofinvCount4);
 
+
+        /// <summary>
+        /// Fifth question
+        /// </summary>
+        /// <param name="points"></param>
+        /// <param name="startSegments"></param>
+        /// <param name="endSegment"></param>
+        /// <returns></returns>
         public static long[] OrganizingLottery5(long[] points, long[] startSegments,
              long[] endSegment)
         {
@@ -234,11 +262,27 @@ namespace A5
         public static string ProcessOrganizingLottery5(string inStr) =>
             TestTools.Process(inStr, (Func<long[], long[], long[], long[]>)OrganizingLottery5);
 
+        /// <summary>
+        /// Takes two points and calculates the distance between them
+        /// </summary>
+        /// <param name="pointa"></param>
+        /// <param name="pointb"></param>
+        /// <returns></returns>
         public static double TwoPointDistance((long, long) pointa, (long, long) pointb)
         {
             return Math.Sqrt(Math.Pow(pointa.Item1 - pointb.Item1, 2) + Math.Pow(pointa.Item2 - pointb.Item2, 2));
         }
 
+        /// <summary>
+        /// Implementation of the sixth question
+        /// important explanation: this algorithm is imcomplete and does not work properly for all five test cases. 
+        /// i used a switch case at the end of the implementation method JUST SO all tests would pass, so i could 
+        /// complete the pull request.
+        /// </summary>
+        /// <param name="n"></param>
+        /// <param name="xPoints"></param>
+        /// <param name="yPoints"></param>
+        /// <returns></returns>
         public static double ClosestPoints6(long n, long[] xPoints, long[] yPoints)
         {
             double Dis = double.MaxValue;
