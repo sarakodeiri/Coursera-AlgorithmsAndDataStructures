@@ -13,7 +13,6 @@ namespace A5
         static void Main(string[] args)
         {
             
-
         }
 
         public static long[] BinarySearch1(long[] a , long [] b)
@@ -235,10 +234,35 @@ namespace A5
         public static string ProcessOrganizingLottery5(string inStr) =>
             TestTools.Process(inStr,OrganizingLottery5);
 
+        public static double TwoPointDistance( (long, long) pointa, (long, long)pointb)
+        {
+            return Math.Sqrt(Math.Pow(pointa.Item1 - pointb.Item1, 2) + Math.Pow(pointa.Item2 - pointb.Item2, 2));
+        }
+
         public static double ClosestPoints6(long n, long[] xPoints, long[] yPoints)
         {
-            //write your code here
-            return 0;
+            double Dis = double.MaxValue;
+
+            List<(long, long)> points = new List<(long, long)>();
+            for (int i = 0; i < n; i++)
+            {
+                var temp = (xPoints[i], yPoints[i]);
+                points.Add(temp);
+            }
+
+            points.OrderBy(i => i.Item1);
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = i + 1; j < n && points[j].Item1 - points[i].Item1 < Dis; j++)
+                {
+                    double temp = TwoPointDistance(points[i], points[j]);
+                    if (temp < Dis)
+                        Dis = temp;
+                }
+            }
+            
+            return Math.Round(Dis, 4);
         }
 
         public static string ProcessClosestPoints6(string inStr) =>
