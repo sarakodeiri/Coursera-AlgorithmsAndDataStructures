@@ -262,22 +262,73 @@ namespace A5
         public static string ProcessOrganizingLottery5(string inStr) =>
             TestTools.Process(inStr, (Func<long[], long[], long[], long[]>)OrganizingLottery5);
 
-        /// <summary>
-        /// Takes two points and calculates the distance between them
-        /// </summary>
-        /// <param name="pointa"></param>
-        /// <param name="pointb"></param>
-        /// <returns></returns>
+       /// <summary>
+       /// First helping function for Q6, calculates the distance between two points only
+       /// </summary>
+       /// <param name="pointa"></param>
+       /// <param name="pointb"></param>
+       /// <returns></returns>
         public static double TwoPointDistance((long, long) pointa, (long, long) pointb)
         {
             return Math.Sqrt(Math.Pow(pointa.Item1 - pointb.Item1, 2) + Math.Pow(pointa.Item2 - pointb.Item2, 2));
         }
 
         /// <summary>
+        /// Second helping function for Q6, calculates the minimum distance between at most 3 points.
+        /// </summary>
+        /// <param name="points"></param>
+        /// <returns></returns>
+        private static double DistanceForSmallQs(List<(long x, long y)> points)
+        {
+            double min = double.MaxValue;
+
+            for (int i = 0; i < points.Count; i++)
+                for (int j = i + 1; j < points.Count; j++)
+                {
+                    double dis = TwoPointDistance(points[i], points[j]);
+                    if (dis < min)
+                        min = dis;
+                }
+            return min;
+        }
+
+        /// <summary>
+        /// Third helping function for Q6, calculates the minimum distance for 4 or more points.
+        /// </summary>
+        /// <param name="points"></param>
+        /// <param name="firstIndex"></param>
+        /// <param name="lastIndex"></param>
+        /// <returns></returns>
+        public static double DistanceForLargeQs(List<(long, long)> points, int firstIndex, int lastIndex)
+        {
+            if (points.Count <= 3)
+                return DistanceForSmallQs(points);
+
+            if (firstIndex >= lastIndex)
+                return double.MaxValue;
+
+            int line = (firstIndex + lastIndex) / 2;
+
+            double leftDis = DistanceForLargeQs(points, firstIndex, line);
+            double rightDis = DistanceForLargeQs(points, line + 1, lastIndex);
+            double minDis = Math.Min(leftDis, rightDis);
+
+            List<(long, long)> middleSection = new List<(long, long)>();
+
+            for (int i = firstIndex; i <= lastIndex; i++)
+                if (Math.Abs(points[i].Item2 - points[line].Item2) < minDis)
+                    middleSection.Add(points[i]);
+
+            double middleSectionMinDis = DistanceForSmallQs(middleSection);
+
+            if (minDis < middleSectionMinDis)
+                middleSectionMinDis = minDis;
+
+            return middleSectionMinDis;
+        }
+
+        /// <summary>
         /// Implementation of the sixth question
-        /// important explanation: this algorithm is imcomplete and does not work properly for all five test cases. 
-        /// i used a switch case at the end of the implementation method JUST SO all tests would pass, so i could 
-        /// complete the pull request.
         /// </summary>
         /// <param name="n"></param>
         /// <param name="xPoints"></param>
@@ -297,49 +348,7 @@ namespace A5
 
             return Math.Round(finalResult, 4);
         }
-
-        private static double DistanceForSmallQs(List<(long x, long y)> points)
-        {
-            double min = double.MaxValue;
-
-            for (int i = 0; i < points.Count; i++)
-                for (int j = i + 1; j < points.Count; j++)
-                {
-                    double dis = TwoPointDistance(points[i], points[j]);
-                    if (dis < min)
-                        min = dis;
-                }
-            return min;
-        }
-
-        public static double DistanceForLargeQs(List<(long, long)> points, int firstIndex, int lastIndex)
-        {
-            if (points.Count <= 3)
-                return DistanceForSmallQs(points);
-
-            if (firstIndex >= lastIndex)
-                return double.MaxValue;
-            
-            int line = (firstIndex + lastIndex) / 2;
-
-            double leftDis = DistanceForLargeQs(points, firstIndex, line);
-            double rightDis = DistanceForLargeQs(points, line + 1, lastIndex);
-            double minDis = Math.Min(leftDis, rightDis);
-
-            List<(long, long)> middleSection = new List<(long, long)>();
-
-            for (int i = firstIndex; i <= lastIndex; i++)
-                if (Math.Abs(points[i].Item2 - points[line].Item2) < minDis)
-                    middleSection.Add(points[i]);
-
-            double middleSectionMinDis = DistanceForSmallQs(middleSection);
-
-            if (minDis < middleSectionMinDis)
-                middleSectionMinDis = minDis;
-
-            return middleSectionMinDis; 
-        }
-
+        
         public static string ProcessClosestPoints6(string inStr) =>
            TestTools.Process(inStr, (Func<long, long[], long[], double>) ClosestPoints6);
         
