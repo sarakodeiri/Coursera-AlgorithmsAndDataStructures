@@ -16,16 +16,18 @@ namespace A6
 
         public static void MinimumSteps(long n, List<long> Steps) //method for creating an array with the min steps for each number
         {
-            var WhichOnes = new List<long>();
+            //var WhichOnes = new List<long>();
+            List<(long, long)> WhichOnes = new List<(long, long)>();
+
             if (n % 3 == 0)
-                WhichOnes.Add(n / 3);
+                WhichOnes.Add((n / 3, Steps[(int)n/3]));
             if (n % 2 == 0)
-                WhichOnes.Add(n / 2);
-            WhichOnes.Add(n - 1);
+                WhichOnes.Add((n / 2, Steps[(int)n / 2]));
+            WhichOnes.Add((n - 1, Steps[(int)n-1]));
 
-            List < (long, long) > blah = new List<(long, long)>();
-
-            Steps.Add(Steps[(int)WhichOnes.Min()] + 1);
+            List<(long, long)> bikhod = WhichOnes.OrderBy(x => x.Item2).ThenBy(x => x.Item1).ToList();
+           // (long, long) blah = bikhod[0];
+            Steps.Add(bikhod[0].Item2 + 1);
         } 
 
         public static long[] Solve(long n)
