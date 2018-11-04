@@ -14,20 +14,53 @@ namespace A6
         public override string Process(string inStr) =>
             TestTools.Process(inStr, (Func<long, long[]>)Solve);
 
-        public void MinimumSteps(long n, List<long> Steps)
+        public static void MinimumSteps(long n, List<long> Steps) //method for creating an array with the min steps for each number
         {
-            var WhichOnes = new List<double>() { n - 1, n / 2, n / 3};
-            WhichOnes.Where(x => (int)x == x);
-            Steps.Add(Steps[(int)WhichOnes.Min()] + 1);
-        }
+            var WhichOnes = new List<long>();
+            if (n % 3 == 0)
+                WhichOnes.Add(n / 3);
+            if (n % 2 == 0)
+                WhichOnes.Add(n / 2);
+            WhichOnes.Add(n - 1);
 
-        public long[] Solve(long n)
+            List < (long, long) > blah = new List<(long, long)>();
+
+            Steps.Add(Steps[(int)WhichOnes.Min()] + 1);
+        } 
+
+        public static long[] Solve(long n)
         {
             var steps = new List<long>() { 0, 0 };
             for (int i = 2; i <= n; i++)
                 MinimumSteps(i, steps);
-            //Write your code here
-            return new long[] { 0 };
+            List<long> actionHistory = new List<long>();
+            var tempList = new double[] {double.MaxValue, double.MaxValue, double.MaxValue };
+            actionHistory.Add(n);
+
+            do
+            {
+                if (n%3 == 0)
+                    tempList[0] = steps[(int)n / 3];
+
+                if (n%2 == 0)
+                    tempList[1] = steps[(int)n / 2];
+
+                tempList[2] = n - 1;
+
+                int minIndex = Array.IndexOf(tempList, tempList.Min());
+
+                switch (minIndex)
+                {
+                    case 0: actionHistory.Add(n / 3); n /= 3; break;
+                    case 1: actionHistory.Add(n / 2); n /= 2; break;
+                    case 2: actionHistory.Add(n - 1); n--; break;
+                }
+            } while (n != 1);
+
+            actionHistory.Reverse();
+
+            return actionHistory.ToArray();
+
         }
     }
 }

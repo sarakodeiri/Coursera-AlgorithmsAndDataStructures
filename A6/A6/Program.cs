@@ -10,7 +10,7 @@ namespace A6
     {
         static void Main(string[] args)
         {
-            long a = MoneyChange.Solve(34);
+            PrimitiveCalculator.Solve(11);
         }
         
     }
