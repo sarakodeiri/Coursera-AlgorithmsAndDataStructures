@@ -20,9 +20,19 @@ namespace Q1
             List<WordCount> candidates = 
                 new List<WordCount>();
 
-            // TODO
+            //TODO 
 
-            return candidates
+            List<string> oneEditDistance = CandidateGenerator.GetCandidates(misspelling).ToList();
+            oneEditDistance.Add(misspelling);
+
+            List<WordCount> finals = new List<WordCount>();
+
+            for (int i = 0; i < oneEditDistance.Count; i++)
+                for (int j = 0; j < LanguageModel.WordCounts.Length; j++)
+                    if (LanguageModel.WordCounts[j].Word == oneEditDistance[i])
+                        finals.Add(LanguageModel.WordCounts[j]);
+
+                    return finals
                     .OrderByDescending(x => x.Count)
                     .Select(x => x.Word)
                     .Distinct()
@@ -33,7 +43,6 @@ namespace Q1
         {
             List<WordCount> candidates =
                 new List<WordCount>();
-
             // TODO
 
             return candidates

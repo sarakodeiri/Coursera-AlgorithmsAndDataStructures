@@ -28,10 +28,7 @@ namespace Q1
 
             for (int j = 0; j < word.Length; j++)
                  candidates.Add(Delete(word, j));
-
-            foreach (var a in candidates)
-                Console.WriteLine(a);
-
+            
             return candidates.ToArray();
         }
 

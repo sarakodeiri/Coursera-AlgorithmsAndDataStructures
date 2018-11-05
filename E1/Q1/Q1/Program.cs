@@ -12,8 +12,7 @@ namespace Q1
 
         static void Main(string[] args)
         {
-            CandidateGenerator.GetCandidates("the");
-            Console.ReadKey();
+            
         }
 
         public static WordCount[] Load(string filePath)
