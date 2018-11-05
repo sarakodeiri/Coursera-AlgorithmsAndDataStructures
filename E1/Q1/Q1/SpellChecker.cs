@@ -25,18 +25,48 @@ namespace Q1
             List<string> oneEditDistance = CandidateGenerator.GetCandidates(misspelling).ToList();
             oneEditDistance.Add(misspelling);
 
+            oneEditDistance.OrderBy(i => i);
+            LanguageModel.WordCounts.OrderBy(i => i.Word);
+
             List<WordCount> finals = new List<WordCount>();
 
-            for (int i = 0; i < oneEditDistance.Count; i++)
-                for (int j = 0; j < LanguageModel.WordCounts.Length; j++)
-                    if (LanguageModel.WordCounts[j].Word == oneEditDistance[i])
-                        finals.Add(LanguageModel.WordCounts[j]);
+            //NAIVE
+            //for (int i = 0; i < oneEditDistance.Count; i++)
+            //    for (int j = 0; j < LanguageModel.WordCounts.Length; j++)
+            //        if (LanguageModel.WordCounts[j].Word == oneEditDistance[i])
+            //            finals.Add(LanguageModel.WordCounts[j]);
+
+            for (int i=0; i<LanguageModel.WordCounts.Count(); i++)
+            {
+                long index = BinarySearch(oneEditDistance.ToArray(), 0, oneEditDistance.Count - 1, 
+                    LanguageModel.WordCounts[i].Word);
+                if (oneEditDistance[i] == LanguageModel.WordCounts[(int)index].Word)
+                    finals.Add(LanguageModel.WordCounts[(int)index]);
+
+            }
 
                     return finals
                     .OrderByDescending(x => x.Count)
                     .Select(x => x.Word)
                     .Distinct()
                     .ToArray();
+        }
+
+        public long BinarySearch(string[] words, int low, int high, string word)
+        {
+            if (high < low)
+                return low - 1;
+
+            int mid = (high + low) / 2;
+
+            if (word == words[mid])
+                return mid;
+
+            else if (String.Compare(word, words[mid]) < 0)
+                return BinarySearch(words, low, mid - 1, word);
+
+            else
+                return BinarySearch(words, mid + 1, high, word);
         }
 
         public string[] SlowCheck(string misspelling)
