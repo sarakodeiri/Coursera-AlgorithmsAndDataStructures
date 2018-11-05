@@ -29,6 +29,9 @@ namespace Q1
             for (int j = 0; j < word.Length; j++)
                  candidates.Add(Delete(word, j));
 
+            foreach (var a in candidates)
+                Console.WriteLine(a);
+
             return candidates.ToArray();
         }
 
@@ -53,15 +56,15 @@ namespace Q1
             char[] wordChars = word.ToCharArray();
             char[] newWord = new char[wordChars.Length-1];
 
-            //for (int i = 0; i < pos; i++)
-            //    newWord[i] = wordChars[i];
+            for (int i = 0; i < pos; i++)
+                newWord[i] = wordChars[i];
 
-            //for (int i = pos + 1; i < newWord.Length; i++)
-            //    newWord[i-1] = wordChars[i];
+            for (int i = pos + 1; i < wordChars.Length; i++)
+                newWord[i - 1] = wordChars[i];
 
-            List<char> myWord = wordChars.ToList();
-            myWord.Remove(myWord[pos]);
-            newWord = myWord.ToArray();
+            //List<char> myWord = wordChars.ToList();
+            //myWord.Remove(myWord[pos]);
+            //newWord = myWord.ToArray();
 
             //TODO
             return new string(newWord);
