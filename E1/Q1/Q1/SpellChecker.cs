@@ -36,13 +36,13 @@ namespace Q1
             //        if (LanguageModel.WordCounts[j].Word == oneEditDistance[i])
             //            finals.Add(LanguageModel.WordCounts[j]);
 
-            for (int i=0; i<LanguageModel.WordCounts.Count(); i++)
+            for (int i=0; i < LanguageModel.WordCounts.Count(); i++)
             {
-                long index = BinarySearch(oneEditDistance.ToArray(), 0, oneEditDistance.Count - 1, 
+                int index = BinarySearch(oneEditDistance.ToArray(), 0, oneEditDistance.Count - 1, 
                     LanguageModel.WordCounts[i].Word);
-                if (oneEditDistance[i] == LanguageModel.WordCounts[(int)index].Word)
-                    finals.Add(LanguageModel.WordCounts[(int)index]);
 
+                if (oneEditDistance[index] == LanguageModel.WordCounts[i].Word)
+                    finals.Add(LanguageModel.WordCounts[i]);
             }
 
                     return finals
@@ -52,7 +52,7 @@ namespace Q1
                     .ToArray();
         }
 
-        public long BinarySearch(string[] words, int low, int high, string word)
+        public int BinarySearch(string[] words, int low, int high, string word)
         {
             if (high < low)
                 return low - 1;
