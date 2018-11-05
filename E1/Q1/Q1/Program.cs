@@ -12,7 +12,7 @@ namespace Q1
 
         static void Main(string[] args)
         {
-
+            CandidateGenerator.GetCandidates("acheive");
         }
 
         public static WordCount[] Load(string filePath)
