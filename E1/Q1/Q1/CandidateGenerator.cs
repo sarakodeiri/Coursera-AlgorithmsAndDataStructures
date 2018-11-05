@@ -24,7 +24,15 @@ namespace Q1
         {
             char[] wordChars = word.ToCharArray();
             char[] newWord = new char[wordChars.Length+1];
-            //TODO
+               
+            for (int i=0; i<pos; i++)
+                newWord[i] = wordChars[i];
+
+            newWord[pos] = c;
+
+            for (int i = pos + 1; i < newWord.Length; i++)
+                newWord[i] = wordChars[i - 1];
+            
             return new string(newWord);
         }
 
@@ -32,6 +40,8 @@ namespace Q1
         {
             char[] wordChars = word.ToCharArray();
             char[] newWord = new char[wordChars.Length-1];
+
+
             //TODO
             return new string(newWord);
         }
@@ -40,6 +50,16 @@ namespace Q1
         {
             char[] wordChars = word.ToCharArray();
             char[] newWord = new char[wordChars.Length];
+
+
+            for (int i = 0; i < pos; i++)
+                newWord[i] = wordChars[i];
+
+            newWord[pos] = c;
+
+            for (int i = pos + 1; i < newWord.Length; i++)
+                newWord[i] = wordChars[i];
+            
             //TODO
             return new string(newWord);
         }
