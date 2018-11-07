@@ -36,30 +36,36 @@ namespace A6
             for (int i = 2; i <= n; i++)
                 MinimumSteps(i, steps);
             List<long> actionHistory = new List<long>();
-            var tempList = new double[] {double.MaxValue, double.MaxValue, double.MaxValue };
+            //var tempList = new double[] {double.MaxValue, double.MaxValue, double.MaxValue };
             actionHistory.Add(n);
 
-            do
+            if (n != 0 && n != 1)
             {
-                if (n%3 == 0)
-                    tempList[0] = steps[(int)n / 3];
-
-                if (n%2 == 0)
-                    tempList[1] = steps[(int)n / 2];
-
-                tempList[2] = n - 1;
-
-                int minIndex = Array.IndexOf(tempList, tempList.Min());
-
-                switch (minIndex)
+                do
                 {
-                    case 0: actionHistory.Add(n / 3); n /= 3; break;
-                    case 1: actionHistory.Add(n / 2); n /= 2; break;
-                    case 2: actionHistory.Add(n - 1); n--; break;
-                }
-            } while (n != 1);
+                    var tempList = new double[] { double.MaxValue, double.MaxValue, double.MaxValue };
 
-            actionHistory.Reverse();
+                    if (n % 3 == 0)
+                        tempList[0] = steps[(int)n / 3];
+
+                    if (n % 2 == 0)
+                        tempList[1] = steps[(int)n / 2];
+
+                    tempList[2] = steps[(int)n - 1];
+
+                    int minIndex = Array.IndexOf(tempList, tempList.Min());
+
+                    switch (minIndex)
+                    {
+                        case 0: actionHistory.Add(n / 3); n /= 3; break;
+                        case 1: actionHistory.Add(n / 2); n /= 2; break;
+                        case 2: actionHistory.Add(n - 1); n--; break;
+                    }
+                } while (n != 1);
+
+                actionHistory.Reverse();
+            }
+
 
             return actionHistory.ToArray();
 

@@ -10,7 +10,7 @@ namespace A6
     {
         static void Main(string[] args)
         {
-            PrimitiveCalculator.Solve(11);
+            PrimitiveCalculator.Solve(1);
         }
         
     }
