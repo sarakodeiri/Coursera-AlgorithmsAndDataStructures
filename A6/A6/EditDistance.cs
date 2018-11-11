@@ -39,7 +39,6 @@ namespace A6
                         distance[i, j] = new[] {insert, delete, mismatch}.Min();
                     else
                         distance[i, j] = new[] {insert, delete, match}.Min();
-
                 }
 
             return distance[n, m];
