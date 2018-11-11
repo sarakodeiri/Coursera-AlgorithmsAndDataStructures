@@ -14,20 +14,19 @@ namespace A6
         public override string Process(string inStr) =>
             TestTools.Process(inStr, (Func<long, long[]>)Solve);
 
-        public static void MinimumSteps(long n, List<long> Steps) //method for creating an array with the min steps for each number
+        //method for creating an array with the min steps for each number
+        public static void MinimumSteps(long n, List<long> Steps) 
         {
-            //var WhichOnes = new List<long>();
-            List<(long, long)> WhichOnes = new List<(long, long)>();
+            List<(long, long)> whichOnes = new List<(long, long)>();
 
             if (n % 3 == 0)
-                WhichOnes.Add((n / 3, Steps[(int)n/3]));
+                whichOnes.Add((n / 3, Steps[(int)n/3]));
             if (n % 2 == 0)
-                WhichOnes.Add((n / 2, Steps[(int)n / 2]));
-            WhichOnes.Add((n - 1, Steps[(int)n-1]));
+                whichOnes.Add((n / 2, Steps[(int)n / 2]));
+            whichOnes.Add((n - 1, Steps[(int)n-1]));
 
-            List<(long, long)> bikhod = WhichOnes.OrderBy(x => x.Item2).ThenBy(x => x.Item1).ToList();
-           // (long, long) blah = bikhod[0];
-            Steps.Add(bikhod[0].Item2 + 1);
+            List<(long, long)> sorted = whichOnes.OrderBy(x => x.Item2).ThenBy(x => x.Item1).ToList();
+            Steps.Add(sorted[0].Item2 + 1);
         } 
 
         public static long[] Solve(long n)
@@ -35,9 +34,7 @@ namespace A6
             var steps = new List<long>() { 0, 0 };
             for (int i = 2; i <= n; i++)
                 MinimumSteps(i, steps);
-            List<long> actionHistory = new List<long>();
-            //var tempList = new double[] {double.MaxValue, double.MaxValue, double.MaxValue };
-            actionHistory.Add(n);
+            List<long> actionHistory = new List<long>() {n};
 
             if (n != 0 && n != 1)
             {
