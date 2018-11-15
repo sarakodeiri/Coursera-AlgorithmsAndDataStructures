@@ -28,32 +28,33 @@ namespace A7
                     ops.Add(expression[i]);
             
             int m = digits.Count;
-            long[,] minTable = new long[m + 1, m + 1];
-            long[,] maxTable = new long[m + 1, m + 1];
+
+            long[,] minData = new long[m + 1, m + 1];
+            long[,] maxData = new long[m + 1, m + 1];
 
             for (int i = 0; i < m + 1; i++)
                 for (int j = 0; j < m + 1; j++)
                 {
                     if (i == 0 || j == 0)
                     {
-                        minTable[i, j] = 0;
-                        maxTable[i, j] = 0;
+                        minData[i, j] = 0;
+                        maxData[i, j] = 0;
                     }
 
-                    minTable[i, i] = digits[i];
-                    maxTable[i, i] = digits[i];
+                    minData[i, i] = digits[i];
+                    maxData[i, i] = digits[i];
                 }
 
             for (int s = 1; s <= m - 1; s++)
                 for (int i = 1; i <= m - s; i++)
                 {
                     int j = i + s;
-                    var temp = MinAndMax(i, j, ops, minTable, maxTable);
-                    minTable[i, j] = temp.Item1;
-                    maxTable[i, j] = temp.Item2;
+                    var temp = MinAndMax(i, j, ops, minData, maxData);
+                    minData[i, j] = temp.Item1;
+                    maxData[i, j] = temp.Item2;
                 }
 
-            return maxTable[0, m - 1];
+            return maxData[0, m];
         }
 
         public long BinaryOperater(long a, char op, long b)
