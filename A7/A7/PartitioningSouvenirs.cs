@@ -16,8 +16,11 @@ namespace A7
 
         public long Solve(long souvenirsCount, long[] souvenirs)
         {
-            //Write your code here
-            return 0;
+            long sum = souvenirs.Sum();
+            if (sum%3 != 0 || souvenirs.Length < 3 || sum / 3 < souvenirs.Max())
+                return 0;
+
+            return 1;
         }
     }
 }
