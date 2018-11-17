@@ -25,12 +25,7 @@ namespace A8
                     info.Add((chars[i], i));
 
             var final = IsBalanced(info);
-
-            //if (final.Item1)
-            //    Console.WriteLine("Success");
-            //else
-            //    Console.WriteLine(final.Item2 + 1);
-            //Console.ReadKey();
+            
             if (!final.Item1)
                 return final.Item2 + 1;
 
@@ -44,7 +39,9 @@ namespace A8
             for (int i = 0; i < info.Count; i++)
             {
                 if (info[i].Item1 == '(' || info[i].Item1 == '[' || info[i].Item1 == '{')
+
                     stack.Push(info[i]);
+
                 else
                 {
                     if (stack.Count == 0)
@@ -57,7 +54,15 @@ namespace A8
                 }
 
             }
-            return stack.Count == 0 ? (true, 0) : (false, 0);
+
+            List<(char, int)> stackResults = new List<(char, int)>();
+            int n = stack.Count();
+
+            for (int i = 0; i < n; i++)
+                stackResults.Add(stack.Pop());
+            stackResults.Reverse();
+
+            return n == 0 ? (true, 0) : (false, stackResults[0].Item2);
         }
     }
 }
