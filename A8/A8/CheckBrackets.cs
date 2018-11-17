@@ -24,13 +24,7 @@ namespace A8
                 if (specials.Contains(chars[i]))
                     info.Add((chars[i], i));
 
-            var final = IsBalanced(info);
-            
-            if (!final.Item1)
-                return final.Item2 + 1;
-
-            else
-                return -1;
+            return IsBalanced(info).Item1 ? -1 : IsBalanced(info).Item2 + 1;
         }
 
         private static (bool, int) IsBalanced(List<(char, int)> info)
@@ -38,8 +32,9 @@ namespace A8
             Stack<(char, int)> stack = new Stack<(char, int)>();
             for (int i = 0; i < info.Count; i++)
             {
-                if (info[i].Item1 == '(' || info[i].Item1 == '[' || info[i].Item1 == '{')
+                char current = info[i].Item1;
 
+                if (current == '(' || current == '[' || current == '{')
                     stack.Push(info[i]);
 
                 else
@@ -48,8 +43,8 @@ namespace A8
                         return (false, info[i].Item2);
 
                     char top = stack.Pop().Item1;
-                    if ((top == '(' && info[i].Item1 != ')') ||
-                        (top == '[' && info[i].Item1 != ']') || (top == '{' && info[i].Item1 != '}'))
+                    if ((top == '(' && current != ')') ||
+                        (top == '[' && current != ']') || (top == '{' && current != '}'))
                         return (false, info[i].Item2);
                 }
 
