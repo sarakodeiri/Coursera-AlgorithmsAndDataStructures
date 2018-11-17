@@ -22,13 +22,13 @@ namespace A7
             if (sum%3 != 0 || n < 3 || sum / 3 < souvenirs.Max())
                 return 0;
 
-            long g = sum / 3; //g is short for goal, meaning the sum we want each of our partitions to have.
+            long partialSum = sum / 3; //g is short for goal, meaning the sum we want each of our partitions to have.
 
-            bool[,,] allData = new bool[(int)g + 1, (int)g + 1, n];
+            bool[,,] allData = new bool[(int)partialSum + 1, (int)partialSum + 1, n];
 
             //initializing our 3d array of data
-            for (int i = 0; i < g + 1; i++)
-                for (int j = 0; j < g + 1; j++)
+            for (int i = 0; i < partialSum + 1; i++)
+                for (int j = 0; j < partialSum + 1; j++)
                     for (int k = 0; k < n; k++)
                     {
                         allData[i, 0, k] = ((i == 0) || (souvenirs[k] == i));
@@ -36,8 +36,8 @@ namespace A7
                     }
             
 
-            for (int i = 1; i < g + 1; i++)
-                for (int j = 1; j < g + 1; j++)
+            for (int i = 1; i < partialSum + 1; i++)
+                for (int j = 1; j < partialSum + 1; j++)
                     for (int k = 0; k < n; k++)
                     {
                         int currentSouvenir = (int)souvenirs[k];
@@ -58,7 +58,7 @@ namespace A7
                         allData[i, j, k] = canBeFilled;
                     }
 
-            if (allData[g, g, n - 1])
+            if (allData[partialSum, partialSum, n - 1])
                 return 1;
 
             return 0;

@@ -51,7 +51,7 @@ namespace A7
 
         public long Solve(string expression)
         {
-            expression.ToCharArray();
+            //expression.ToCharArray();
             int n = expression.Length;
             List<long> digits = new List<long>();
             List<char> ops = new List<char>();
