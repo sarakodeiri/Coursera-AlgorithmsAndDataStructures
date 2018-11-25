@@ -17,8 +17,8 @@ namespace A8.Tests
         public void SolveTest()
         {
             Processor[] problems = new Processor[] {
-               // new CheckBrackets("TD1"),
-                new TreeHeight("TD2")
+                new CheckBrackets("TD1"),
+                new TreeHeight("TD2"),
                // new PacketProcessing("TD3")
             };
             
