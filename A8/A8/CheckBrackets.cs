@@ -17,12 +17,12 @@ namespace A8
         public long Solve(string str)
         {
             char[] specials = new char[] { '(', ')', '{', '}', '[', ']' };
-            var chars = str.ToCharArray();
+            //var chars = str.ToCharArray();
             List<(char, int)> info = new List<(char, int)>();
 
-            for (int i = 0; i < chars.Length; i++)
-                if (specials.Contains(chars[i]))
-                    info.Add((chars[i], i));
+            for (int i = 0; i < str.Length; i++)
+                if (specials.Contains(str[i]))
+                    info.Add((str[i], i));
 
             return IsBalanced(info).Item1 ? -1 : IsBalanced(info).Item2 + 1;
         }
@@ -50,14 +50,7 @@ namespace A8
 
             }
 
-            List<(char, int)> stackResults = new List<(char, int)>();
-            int n = stack.Count();
-
-            for (int i = 0; i < n; i++)
-                stackResults.Add(stack.Pop());
-            stackResults.Reverse();
-
-            return n == 0 ? (true, 0) : (false, stackResults[0].Item2);
+            return stack.Count == 0 ? (true, 0) : (false, stack.Last().Item2);
         }
     }
 }

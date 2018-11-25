@@ -48,7 +48,7 @@ namespace A8
             Queue<Node> queue = new Queue<Node>();
             queue.Enqueue(tree.root);
 
-            do
+            while (queue.Count != 0) 
             {
                 Node currentNode = queue.Dequeue(); 
                 for (int i = 0; i < currentNode.children.Count; i++)
@@ -57,7 +57,7 @@ namespace A8
                     currentNode.children[i].depth = currentNode.depth + 1;
                     height = Math.Max(height, currentNode.depth + 1);
                 }
-            } while (queue.Count != 0);
+            } 
 
             return height + 1;
         }
