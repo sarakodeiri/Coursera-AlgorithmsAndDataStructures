@@ -40,7 +40,7 @@ namespace TestCommon
                 }
                 catch (Exception e)
                 {
-                    failedTests.Add($"Test failed for initArray {inFile}: {e.Message}");
+                    failedTests.Add($"Test failed for input {inFile}: {e.Message}");
                     Console.WriteLine($"Test Failed: {inFile}");
                 }
             }
@@ -49,6 +49,32 @@ namespace TestCommon
                 $"{failedTests.Count} out of {inFiles.Length} tests failed: {string.Join("\n", failedTests)}");
 
             Console.WriteLine($"All {inFiles.Length} tests passed.");
+        }
+
+        public static string Process(string inStr, Func<string, string, long[]> processor)
+        {
+            var toks = inStr.Split(NewLineChars, StringSplitOptions.RemoveEmptyEntries);
+            return string.Join(" ", processor(toks[0], toks[1]));
+        }
+
+        public static string Process(string inStr, Func<long, string[], string[]> processor)
+        {
+            var toks = inStr.Split(NewLineChars, StringSplitOptions.RemoveEmptyEntries)
+                 .Where(l => !string.IsNullOrWhiteSpace(l));
+
+            long count = long.Parse(toks.First());
+            var remainingLines = toks.Skip(1).ToArray();
+            return
+                string.Join("\n", processor(count, remainingLines));
+        }
+
+        public static string Process(string inStr, Func<string[], string[]> processor)
+        {
+            return
+                string.Join("\n",
+                processor(inStr.Split(NewLineChars, StringSplitOptions.RemoveEmptyEntries)
+                 .Where(l => !string.IsNullOrWhiteSpace(l))
+                 .ToArray()));
         }
 
         public static string Process(string inStr, Func<string, string, long> longProcessor)
@@ -60,6 +86,30 @@ namespace TestCommon
         public static string Process(string inStr, Func<string, long> longProcessor)
         {            
             return longProcessor(inStr.Trim(IgnoreChars)).ToString();
+        }
+
+
+        public static string Process(string inStr, Func<long[], Tuple<long, long>[]> longProcessor)
+        {
+            long[] inArray = inStr
+                .Split(IgnoreChars, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => long.Parse(s))
+                .ToArray();
+
+            return string.Join("\n", longProcessor(inArray).Select(t => $"{t.Item1} {t.Item2}"));
+        }
+
+
+        public static string Process(string inStr, Func<long, long[], Tuple<long, long>[]> longProcessor)
+        {
+            var allNumbers = inStr
+                .Split(IgnoreChars, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => long.Parse(s));
+
+            long firstNumber = allNumbers.First();
+            long[] remainingNumbers = allNumbers.Skip(1).ToArray();
+
+            return string.Join("\n", longProcessor(firstNumber, remainingNumbers).Select(t => $"{t.Item1} {t.Item2}"));
         }
 
 
@@ -262,6 +312,9 @@ namespace TestCommon
                 string line = null;
                 while (null != (line = reader.ReadLine()))
                 {
+                    if (string.IsNullOrWhiteSpace(line))
+                        continue;
+
                     long a, b;
                     ParseTwoNumbers(line, out a, out b);
                     list1.Add(a);
