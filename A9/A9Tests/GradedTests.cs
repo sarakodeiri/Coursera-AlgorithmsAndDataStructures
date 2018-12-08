@@ -12,13 +12,13 @@ namespace A9.Tests
     [TestClass()]
     public class GradedTests
     {
-        [TestMethod(), Timeout(1000)]
+        [TestMethod(), Timeout(3000)]
         [DeploymentItem("TestData", "A9_TestData")]
         public void SolveTest()
         {
             Processor[] problems = new Processor[] {
-                new ConvertIntoHeap("TD1")
-               // new ParallelProcessing("TD2"),
+                //new ConvertIntoHeap("TD1")
+                new ParallelProcessing("TD2")
                // new MergingTables("TD3")
             };
 

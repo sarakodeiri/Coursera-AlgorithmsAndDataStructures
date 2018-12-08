@@ -10,6 +10,10 @@ namespace A9
     {
         static void Main(string[] args)
         {
+            var problem = new ParallelProcessing("");
+            problem.Solve(3, new long[] { 184, 167,
+                121, 182, 129, 151, 107, 191, 125,
+                194 });
         }
     }
 }
