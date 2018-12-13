@@ -15,8 +15,9 @@ namespace A10
         
         public string[] Solve(string [] commands)
         {
-            string[] phoneBook = new string[10000000];
+            Dictionary<long, string> phoneBook = new Dictionary<long, string>();
             List<string> result = new List<string>();
+
             foreach (var cmd in commands)
             {
                 var toks = cmd.Split();
@@ -37,21 +38,24 @@ namespace A10
             return result.ToArray();
         }
 
-        public void Add(string name, int number, string[] phoneBook)
+        public void Add(string name, int number, Dictionary<long, string> phoneBook)
         {
-            phoneBook[number] = name;
+            if (phoneBook.ContainsKey(number))
+                phoneBook.Remove(number);
+            phoneBook.Add(number, name);
         }
 
-        public string Find(int number, string[] phoneBook)
+        public string Find(int number, Dictionary<long, string> phoneBook)
         {
-            if (phoneBook[number] == null)
-                return "not found";
-            return phoneBook[number];
+            if (phoneBook.ContainsKey(number))
+                return phoneBook[number];
+            return "not found";
         }
 
-        public void Delete(int number, string[] phoneBook)
+        public void Delete(int number, Dictionary<long, string> phoneBook)
         {
-                phoneBook[number] = null;
+            if (phoneBook.ContainsKey(number))
+                phoneBook.Remove(number);
         }
     }
 }
