@@ -5,18 +5,6 @@ using TestCommon;
 
 namespace A10
 {
-    //public class Contact
-    //{
-    //    public string Name;
-    //    public int Number;
-
-    //    public Contact(string name, int number)
-    //    {
-    //        Name = name;
-    //        Number = number;
-    //    }
-    //}
-
     public class PhoneBook : Processor
     {
         public PhoneBook(string testDataName) : base(testDataName) { }
@@ -40,14 +28,11 @@ namespace A10
                 switch (cmdType)
                 {
                     case "add":
-                        Add(args[1], number);
-                        break;
+                        Add(args[1], number); break;
                     case "del":
-                        Delete(number);
-                        break;
+                        Delete(number); break;
                     case "find":
-                        result.Add(Find(number));
-                        break;
+                        result.Add(Find(number)); break;
                 }
             }
             return result.ToArray();
@@ -55,7 +40,7 @@ namespace A10
 
         public void Add(string name, int number)
         {
-                phoneBook[number] = name;
+            phoneBook[number] = name;
         }
 
         public string Find(int number)
@@ -63,12 +48,12 @@ namespace A10
             if (phoneBook[number] == null)
                 return "not found";
             return phoneBook[number];
-
         }
 
         public void Delete(int number)
         {
-            phoneBook[number] = null;
+            if (phoneBook[number] != null)
+                phoneBook[number] = null;
         }
     }
 }
