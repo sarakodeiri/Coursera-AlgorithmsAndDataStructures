@@ -31,7 +31,26 @@ namespace A10
             long p, 
             long x)
         {
-            return null;
+            int textLength = T.Length;
+            long[] hashesResult = new long[textLength - P + 1];
+            string lastSubstring = string.Empty;
+            for (int i = textLength - P; i < textLength; i++)
+                lastSubstring += T[i];
+            hashesResult[textLength - P] = PolyHash(lastSubstring, p, x);
+            long y = 1;
+
+            for (int i = 1; i <= P; i++)
+                y = (y * x) % p;
+            // y = (long)Math.Pow(x, P) % p;
+
+            for (int i = textLength - P - 1; i >= 0; i--)
+                hashesResult[i] = (x * hashesResult[i + 1] + T[i] - y * T[i + P]) % p;
+            return hashesResult;
+        }
+
+        private static long PolyHash(string lastSubstring, long p, long x)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -5,17 +5,17 @@ using TestCommon;
 
 namespace A10
 {
-    public class Contact
-    {
-        public string Name;
-        public int Number;
+    //public class Contact
+    //{
+    //    public string Name;
+    //    public int Number;
 
-        public Contact(string name, int number)
-        {
-            Name = name;
-            Number = number;
-        }
-    }
+    //    public Contact(string name, int number)
+    //    {
+    //        Name = name;
+    //        Number = number;
+    //    }
+    //}
 
     public class PhoneBook : Processor
     {
@@ -24,13 +24,14 @@ namespace A10
         public override string Process(string inStr) =>
             TestTools.Process(inStr, (Func<string[], string[]>)Solve);
 
-        protected List<Contact> PhoneBookList;
+        protected string[] phoneBook = new string[10000001];
+
 
         public string[] Solve(string [] commands)
         {
-            PhoneBookList = new List<Contact>(commands.Length);
+            
             List<string> result = new List<string>();
-            foreach(var cmd in commands)
+            foreach (var cmd in commands)
             {
                 var toks = cmd.Split();
                 var cmdType = toks[0];
@@ -54,37 +55,20 @@ namespace A10
 
         public void Add(string name, int number)
         {
-            for(int i=0; i<PhoneBookList.Count; i++)
-            {
-                if (PhoneBookList[i].Number == number)
-                {
-                    PhoneBookList[i].Name = name;
-                    return;
-                }
-            }
-            PhoneBookList.Add(new Contact(name, number));
+                phoneBook[number] = name;
         }
 
         public string Find(int number)
         {
-            for (int i = 0; i < PhoneBookList.Count; i++)
-            {
-                if (PhoneBookList[i].Number == number)
-                    return PhoneBookList[i].Name;             
-            }
-            return "not found";
+            if (phoneBook[number] == null)
+                return "not found";
+            return phoneBook[number];
+
         }
 
         public void Delete(int number)
         {
-            for (int i = 0; i < PhoneBookList.Count; i++)
-            {
-                if (PhoneBookList[i].Number == number)
-                {
-                    PhoneBookList.RemoveAt(i);
-                    return;
-                }
-            }
+            phoneBook[number] = null;
         }
     }
 }
