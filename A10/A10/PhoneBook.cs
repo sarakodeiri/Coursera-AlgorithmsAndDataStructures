@@ -15,7 +15,7 @@ namespace A10
         
         public string[] Solve(string [] commands)
         {
-            string[] phoneBook = new string[10000001];
+            string[] phoneBook = new string[10000000];
             List<string> result = new List<string>();
             foreach (var cmd in commands)
             {
@@ -51,7 +51,6 @@ namespace A10
 
         public void Delete(int number, string[] phoneBook)
         {
-            if (phoneBook[number] != null)
                 phoneBook[number] = null;
         }
     }
