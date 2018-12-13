@@ -17,9 +17,9 @@ namespace A10.Tests
         public void SolveTest()
         {
             Processor[] problems = new Processor[] {
-                new PhoneBook("TD1")
-               // new HashingWithChain("TD2")
-                //new RabinKarp("TD3")
+            //    new PhoneBook("TD1"),
+            //    new HashingWithChain("TD2"),
+                  new RabinKarp("TD3")
             };
 
             foreach (var p in problems)
@@ -27,6 +27,21 @@ namespace A10.Tests
                 TestTools.RunLocalTest("A10", p.Process, p.TestDataName);
             }
         }
+
+
+        [TestMethod()]
+        public void PolyHashTest()
+        {
+            long result1 = HashingWithChain.PolyHash("world", 5);
+            long result2 = HashingWithChain.PolyHash("HellO", 5);
+            long result3 = HashingWithChain.PolyHash("GooD", 5);
+
+           Assert.AreEqual(4, result1);
+           Assert.AreEqual(4, result2);
+           Assert.AreEqual(2, result3);
+
+        }
+
 
         /// <summary>
         /// This test is just to help you test your
@@ -43,7 +58,7 @@ namespace A10.Tests
             for (int i = 0; i < testStr.Length - patternLen + 1; i++)
             {
                 long expectedHash =
-                    HashingWithChain.PolyHash(testStr, i, patternLen, 101, 3);
+                    HashingWithChain.AdvPolyHash(testStr, i, patternLen, 101, 3);
                 Assert.AreEqual(expectedHash, H[i]);
             }
         }
