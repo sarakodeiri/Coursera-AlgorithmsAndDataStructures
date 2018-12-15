@@ -13,44 +13,45 @@ namespace A10
 
         public long[] Solve(string pattern, string text)
         {
-            List<long> occurrences = new List<long>();
-            int startIdx = 0;
-            int foundIdx = 0;
-            while ((foundIdx = text.IndexOf(pattern, startIdx)) >= startIdx)
-            {
-                startIdx = foundIdx + 1;
-                occurrences.Add(foundIdx);
-            }
-            return occurrences.ToArray();
+            List<long> positions = new List<long>();
+            long pHash = PolyHash(pattern, 0, pattern.Length);
+            long[] hashSet = PreComputeHashes(text, pattern.Length,
+                HashingWithChain.BigPrimeNumber, HashingWithChain.ChosenX);
+            for (int i = 0; i < hashSet.Length; i++)
+                if (hashSet[i] == pHash)
+                    if (String.Equals(text.Substring(i, pattern.Length), pattern))
+                        positions.Add(i);
+            return positions.ToArray();
         }
 
-
         public static long[] PreComputeHashes(
-            string T, 
+            string T,
             int P, 
             long p, 
             long x)
         {
             int textLength = T.Length;
             long[] hashesResult = new long[textLength - P + 1];
-            string lastSubstring = string.Empty;
-            for (int i = textLength - P; i < textLength; i++)
-                lastSubstring += T[i];
-            hashesResult[textLength - P] = PolyHash(lastSubstring, p, x);
-            long y = 1;
+            hashesResult[textLength - P] = PolyHash(T, T.Length - P, P, p, x);
 
+            long y = 1;
             for (int i = 1; i <= P; i++)
                 y = (y * x) % p;
-            // y = (long)Math.Pow(x, P) % p;
 
             for (int i = textLength - P - 1; i >= 0; i--)
-                hashesResult[i] = (x * hashesResult[i + 1] + T[i] - y * T[i + P]) % p;
+                hashesResult[i] = ((x * hashesResult[i + 1] + T[i] - y * T[i + P]) % p + p) % p;
             return hashesResult;
         }
 
-        private static long PolyHash(string lastSubstring, long p, long x)
+        public static long PolyHash(
+            string str, int start, int count,
+            long p = 1000000007, long x = 263)
         {
-            throw new NotImplementedException();
+            long hash = 0;
+            for (int i = start + count - 1; i >= start; i--)
+                hash = (hash * x + str[i]) % p;
+
+            return hash;
         }
     }
 }

@@ -49,27 +49,16 @@ namespace A10
         public const long ChosenX = 263;
 
         public static long PolyHash(
-            string str,  int bucket,
+            string str, int bucket,
             long p = BigPrimeNumber, long x = ChosenX)
         {
             long hash = 0;
             for (int i = str.Length - 1; i >= 0; i--)
                 hash = (hash * x + str[i]) % p;
 
-            return (hash + 3 * bucket) % bucket;
+            return (hash + bucket) % bucket;
         }
-        /// ??????
-        public static long AdvPolyHash(
-            string str, int start, int count,
-            long p = BigPrimeNumber, long x = ChosenX)
-        {
-            long hash = 0;
-            for (int i = str.Length - 1; i >= 0; i--)
-                  hash = (hash * x + str[i]) % p;
-
-            return (hash + 3*count) % count;
-        }
-        /// ?????????
+        
         public void Add(string str, LinkedList<string>[] data, long bucketCount)
         {
             long hashed = PolyHash(str, (int)bucketCount);
