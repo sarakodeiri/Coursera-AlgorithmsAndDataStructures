@@ -12,11 +12,11 @@ namespace A10
         public override string Process(string inStr) =>
             TestTools.Process(inStr, (Func<long, string[], string[]>)Solve);
 
-
+        LinkedList<string>[] data;
         public string[] Solve(long bucketCount, string[] commands)
         {
             List<string> result = new List<string>();
-            LinkedList<string>[] data = new LinkedList<string>[bucketCount];
+            data = new LinkedList<string>[bucketCount];
             for (int i = 0; i < bucketCount; i++)
                 data[i] = new LinkedList<string>();
 
@@ -29,16 +29,16 @@ namespace A10
                 switch (cmdType)
                 {
                     case "add":
-                        Add(arg, data, bucketCount);
+                        Add(arg, bucketCount);
                         break;
                     case "del":
-                        Delete(arg, data, bucketCount);
+                        Delete(arg, bucketCount);
                         break;
                     case "find":
-                        result.Add(Find(arg, data, bucketCount));
+                        result.Add(Find(arg, bucketCount));
                         break;
                     case "check":
-                        result.Add(Check(int.Parse(arg), data));
+                        result.Add(Check(int.Parse(arg)));
                         break;
                 }
             }
@@ -59,14 +59,14 @@ namespace A10
             return (hash + bucket) % bucket;
         }
         
-        public void Add(string str, LinkedList<string>[] data, long bucketCount)
+        public void Add(string str, long bucketCount)
         {
             long hashed = PolyHash(str, (int)bucketCount);
             if (!data[hashed].Contains(str))
                 data[hashed].AddFirst(str);
         }
 
-        public string Find(string str, LinkedList<string>[] data, long bucketCount)
+        public string Find(string str, long bucketCount)
         {
             long hashed = PolyHash(str, (int)bucketCount);
             if (data[hashed].Contains(str))
@@ -74,14 +74,14 @@ namespace A10
             return "no";
         }
 
-        public void Delete(string str, LinkedList<string>[] data, long bucketCount)
+        public void Delete(string str, long bucketCount)
         {
             long hashed = PolyHash(str, (int)bucketCount);
             if (data[hashed].Contains(str))
                 data[hashed].Remove(str);
         }
 
-        public string Check(int i, LinkedList<string>[] data)
+        public string Check(int i)
         {
             if (data[i].Count == 0)
                 return "-";
