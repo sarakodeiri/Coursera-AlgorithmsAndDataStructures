@@ -23,6 +23,14 @@ namespace A11
             for (int i = 1; i < InOrderResult.Count; i++)
                 if (InOrderResult[i] < InOrderResult[i - 1])
                     return false;
+
+            IsItBST isItBST = new IsItBST("TD2");
+
+
+            foreach (Node n in tree.allNodes)
+                if (n.left != null)
+                    if (n.left.key >= n.key)
+                      return false;
             return true;
         }
     }

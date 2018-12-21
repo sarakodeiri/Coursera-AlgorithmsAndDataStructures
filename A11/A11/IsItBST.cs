@@ -14,8 +14,9 @@ namespace A11
 
         public bool Solve(long[][] nodes)
         {
+            if (nodes.Length == 0)
+                return true;
             Tree tree = new Tree(nodes);
-
             BinaryTreeTraversals binaryTreeTraversals = new BinaryTreeTraversals("TD1");
             List<long> InOrderResult = new List<long>();
             InOrderResult = binaryTreeTraversals.InOrder(tree.root, InOrderResult);
@@ -23,6 +24,7 @@ namespace A11
                 if (InOrderResult[i] < InOrderResult[i - 1])
                     return false;
             return true;
+
         }
 
     }    
