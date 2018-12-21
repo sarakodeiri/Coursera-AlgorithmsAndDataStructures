@@ -10,18 +10,18 @@ namespace A11
     {
         static void Main(string[] args)
         {
-            long[][] nodes = new long[5][];
-            nodes[0] = new long[] {14, 3, 4};
-            nodes[1] = new long[] {5, -1, -1};
-            nodes[2] = new long[] {9, -1, 1};
-            nodes[3] = new long[] {17, -1, -1};
-            nodes[4] = new long[] {6, -1, 2};
+            long[][] nodes = new long[3][];
+            nodes[0] = new long[] {2, 1, 2};
+            nodes[1] = new long[] {2, -1, -1};
+            nodes[2] = new long[] {3, -1, -1};
+            //nodes[3] = new long[] {12, -1, -1};
+            //nodes[4] = new long[] {14, 2, -1};
 
 
 
-            //BinaryTreeTraversals blah = new BinaryTreeTraversals("TD1");
-            //BinaryTreeTraversals.Tree tree = new BinaryTreeTraversals.Tree(nodes);
-            //blah.Solve(nodes);
+            IsItBSTHard blah = new IsItBSTHard("TD3");
+           // Tree tree = new Tree(nodes);
+            blah.Solve(nodes);
         }
     }
 }

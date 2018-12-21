@@ -11,17 +11,14 @@ namespace A11
         public override string Process(string inStr) =>
             TestTools.Process(inStr, (Func<long[][], long[][]>)Solve);
 
-        List<long> InOrderResult;
-        List<long> PreOrderResult;
-        List<long> PostOrderResult;
         
-        private void InOrder(Node root)
+        
+        public List<long> InOrder(Node root, List<long> result)
         {
-            InOrderResult = new List<long>();
             Stack<Node> nodeStack = new Stack<Node>();
             Node currentNode = root;
             if (root == null)
-                return;
+                return null;
             
             while (nodeStack.Count > 0 || currentNode != null)
             {
@@ -32,24 +29,25 @@ namespace A11
                 }
 
                 currentNode = nodeStack.Pop();
-                InOrderResult.Add(currentNode.key);
+                result.Add(currentNode.key);
                 currentNode = currentNode.right;
             }
+
+            return result;
         }
 
-        private void PreOrder(Node root)
+        private List<long> PreOrder(Node root, List<long> result)
         {
-            PreOrderResult = new List<long>();
             Stack<Node> nodeStack = new Stack<Node>();
             nodeStack.Push(root);
             if (root == null)
-                return;
+                return null;
 
             while (nodeStack.Count > 0)
             {
 
                 Node peeked = nodeStack.Peek();
-                PreOrderResult.Add(peeked.key);
+                result.Add(peeked.key);
                 nodeStack.Pop();
                 
                 if (peeked.right != null)
@@ -58,15 +56,16 @@ namespace A11
                 if (peeked.left != null)
                     nodeStack.Push(peeked.left);
             }
+
+            return result;
         }
 
-        private void PostOrder(Node root)
+        private List<long> PostOrder(Node root, List<long> result)
         {
             Stack<Node> nodeStack = new Stack<Node>();
-            PostOrderResult = new List<long>();
             nodeStack.Push(root);
             if (root == null)
-                return;
+                return null;
            
             while (nodeStack.Count > 0)
             {
@@ -75,7 +74,7 @@ namespace A11
                 if (peeked.right == root || peeked.left == root || peeked.left == null && peeked.right == null)
                 {
                     nodeStack.Pop();
-                    PostOrderResult.Add(peeked.key);
+                    result.Add(peeked.key);
                     root = peeked;
                 }
 
@@ -88,19 +87,21 @@ namespace A11
                         nodeStack.Push(peeked.left);
                 }
             }
+            return result;
         }
 
         public long[][] Solve(long[][] nodes)
         {
             Tree tree = new Tree(nodes);
-            InOrder(tree.root);
-            PreOrder(tree.root);
-            PostOrder(tree.root);
+            
+            List<long> InOrderResult = new List<long>();
+            List<long> PreOrderResult = new List<long>();
+            List<long> PostOrderResult = new List<long>();
 
             long[][] finalResult = new long[3][];
-            finalResult[0] = InOrderResult.ToArray();
-            finalResult[1] = PreOrderResult.ToArray();
-            finalResult[2] = PostOrderResult.ToArray();
+            finalResult[0] = InOrder(tree.root, InOrderResult).ToArray();
+            finalResult[1] = PreOrder(tree.root, PreOrderResult).ToArray();
+            finalResult[2] = PostOrder(tree.root, PostOrderResult).ToArray();
 
             return finalResult;
         }
