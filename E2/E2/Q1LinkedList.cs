@@ -50,28 +50,20 @@ namespace E2
             // اگر نیاز بود میتوانید متد اضافه کنید
         }
 
-        public void DeepReverse() //ToDo
+        public void DeepReverse()
         {
-            Tail = Head;
-            Node previous = null;
-            Node curr = Head;
+            Node current = Head;
             Node next = null;
-            while (curr != null)
-            {
-                next = curr.Next;
-                curr.Next = previous;
-                previous = curr;
-                curr = next;
-            }
-            Head = previous;
-            //Tail = next;
 
-            ////Tail = Head;
-            ////while (Tail.Next != null)
-            ////{
-            ////    Tail = Tail.Next;
-            ////}
-            // Tail = curr.Prev;
+            while (current != null)
+            {
+                next = current.Next;
+                current.Next = current.Prev;
+                current.Prev = next;
+                current = current.Prev;
+            }
+
+            (Head, Tail) = (Tail, Head);
         }
 
         public IEnumerable<int> GetForwardEnumerator()
