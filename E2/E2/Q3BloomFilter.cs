@@ -32,11 +32,7 @@ namespace E2
             }
         }
 
-        //public int MyHashFunction(string str, int num) //num = previously generated random int
-        //{
-        //    return str.GetHashCode() + num;
-        //}
-
+        
         public int PolyHash(string str, int x) //Copied from A10
         {
             int hash = 0;
