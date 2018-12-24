@@ -29,9 +29,8 @@ namespace E2
         public void Insert(int key)
         {
             if (Head == null)
-            {
                 Head = Tail = new Node(key);
-            }
+            
 
             else
             {
@@ -41,8 +40,6 @@ namespace E2
                 Tail = newNode;
             }
         }
-
-        public override string ToString() => Head.ToString();
 
         public void Reverse() 
         {
@@ -98,5 +95,8 @@ namespace E2
                 it = it.Prev;
             }
         }
+
+        public override string ToString() => Head.ToString();
+
     }
 }

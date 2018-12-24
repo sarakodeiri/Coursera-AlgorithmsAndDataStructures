@@ -7,26 +7,28 @@ namespace E2
     public class Q3BloomFilter
     {
         BitArray Filter; 
-        int[] randints;
-        int count;
+        int[] RandInts;
+        int Count;
+        int FilterSize;
         Func<string, int>[] HashFunctions;
 
 
         public Q3BloomFilter(int filterSize, int hashFnCount) //ToDo (First few lines)
         {
-            count = hashFnCount;
+            Count = hashFnCount;
+            FilterSize = filterSize;
             Random rnd = new Random();
             Filter = new BitArray(filterSize);
-            randints = new int[count];
+            RandInts = new int[Count];
 
-            for (int i = 0; i < count; i++)
-                randints[i] = rnd.Next();
+            for (int i = 0; i < Count; i++)
+                RandInts[i] = rnd.Next();
 
-            HashFunctions = new Func<string, int>[count];
+            HashFunctions = new Func<string, int>[Count];
 
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                int x = randints[i];
+                int x = RandInts[i];
                 HashFunctions[i] = str => PolyHash(str, x); //takes string, converts it into an int (the hash).
             }
         }
@@ -36,8 +38,7 @@ namespace E2
         //    return str.GetHashCode() + num;
         //}
 
-        
-        public int PolyHash(string str, int x)
+        public int PolyHash(string str, int x) //Copied from A10
         {
             int hash = 0;
             for (int i = str.Length - 1; i >= 0; i--)
@@ -48,18 +49,14 @@ namespace E2
 
         public void Add(string str) //ToDo
         {
-            for (int i = 0; i < count; i++)
-                Filter[HashFunctions[i](str)] = true;
+            for (int i = 0; i < Count; i++)
+                Filter[HashFunctions[i](str) % FilterSize] = true;
         }
 
         public bool Test(string str) //ToDo
         {
-            //int[] hashResult = new int[count];
-            //for (int i = 0; i < count; i++)
-            //    hashResult[i] = HashFunctions[i](str);
-
-            for (int i = 0; i < count; i++)
-                if (!Filter[HashFunctions[i](str)])
+            for (int i = 0; i < Count; i++)
+                if (!Filter[HashFunctions[i](str) % FilterSize])
                     return false;
             return true;
         }
