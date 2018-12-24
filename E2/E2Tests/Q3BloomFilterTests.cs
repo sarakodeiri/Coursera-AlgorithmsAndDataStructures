@@ -14,7 +14,7 @@ namespace E2.Tests
         [TestMethod()]
         public void BloomFilterTest()
         {
-            Assert.Inconclusive("Not Implemented");
+            //Assert.Inconclusive("Not Implemented");
             // تعداد پسوردها - ثابت. عوض نکنید.
             int pwdCount = 1_000_000;
 
@@ -51,7 +51,7 @@ namespace E2.Tests
                 bool trueAnswer = passwords.Contains(pwd);
 
                 // اگر فیلتر بگه توی لیست نیست، ولی واقعا باشه که کلا اشتباه شده
-                Assert.IsTrue(!filterAnswer && trueAnswer);
+                Assert.IsFalse(!filterAnswer && trueAnswer);
 
                 // اگر فیلتر بگه توی لیست هست ولی واقعا نباشه میشه falsePositive
                 if (!trueAnswer && filterAnswer)

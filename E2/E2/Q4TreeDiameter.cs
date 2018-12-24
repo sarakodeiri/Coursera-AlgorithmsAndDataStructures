@@ -9,7 +9,7 @@ namespace E2
         /// <summary>
         /// ریشه همیشه نود صفر است.
         ///توی این آرایه در مکان صفر لیستی از بچه های ریشه موجودند.
-        ///و در مکانه آی از این آرایه لیست بچه های نود آیم هستند
+        ///و در مکان آی از این آرایه لیست بچه های نود آیم هستند
         ///اگر لیست خالی بود، بچه ندارد
         /// </summary>
         public List<int>[] Nodes;
@@ -17,7 +17,6 @@ namespace E2
         public Q4TreeDiameter(int nodeCount, int seed = 0)
         {
             Nodes = GenerateRandomTree(size: nodeCount, seed: seed);
-            
         }
 
         public int TreeHeight()
