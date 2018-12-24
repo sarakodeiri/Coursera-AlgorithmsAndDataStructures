@@ -11,14 +11,6 @@ namespace E2
         static void Main(string[] args)
         {
 
-            Q1LinkedList list = new Q1LinkedList();
-            for (int i = 0; i < 5; i++)
-                list.Insert(i);
-
-            list.DeepReverse();
-            string bah = string.Empty;
         }
-
-
     }
 }

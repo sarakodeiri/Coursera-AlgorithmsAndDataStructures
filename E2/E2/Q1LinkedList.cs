@@ -44,10 +44,23 @@ namespace E2
 
         public override string ToString() => Head.ToString();
 
-        public void Reverse() //ToDo
+        public void Reverse() 
         {
-            // زحمت بکشید پیاده سازی کنید
-            // اگر نیاز بود میتوانید متد اضافه کنید
+            if (Head == null) //Base case
+                return;
+            Reverse(Head);
+            (Head, Tail) = (Tail, Head);
+        }
+
+        private void Reverse(Node head) 
+        {
+            if (head.Next != null) //Base case
+                Reverse(head.Next);
+
+            Node next = head.Next;
+            head.Next = head.Prev;
+            head.Prev = next;
+            return;
         }
 
         public void DeepReverse()
