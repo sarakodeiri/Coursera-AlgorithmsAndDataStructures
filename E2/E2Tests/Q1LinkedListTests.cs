@@ -39,7 +39,7 @@ namespace E2.Tests
         [TestMethod(), Timeout(2000)]
         public void ReverseDeepTest()
         {
-            Assert.Inconclusive("Not Implemented");
+           // Assert.Inconclusive("Not Implemented");
             Random rnd = new Random(0);
 
             int[] random = Enumerable.Range(1, 1_000_000)
@@ -62,7 +62,7 @@ namespace E2.Tests
         [TestMethod]
         public void DeepReverseSimpleTest()
         {
-            Assert.Inconclusive("Not Implemented");
+           // Assert.Inconclusive("Not Implemented");
             Q1LinkedList list = new Q1LinkedList();
             for (int i = 0; i < 5; i++)
                 list.Insert(i);

@@ -32,6 +32,7 @@ namespace E2
             {
                 Head = Tail = new Node(key);
             }
+
             else
             {
                 var newNode = new Node(key);
@@ -43,16 +44,34 @@ namespace E2
 
         public override string ToString() => Head.ToString();
 
-        public void Reverse()
+        public void Reverse() //ToDo
         {
             // زحمت بکشید پیاده سازی کنید
             // اگر نیاز بود میتوانید متد اضافه کنید
         }
 
-        public void DeepReverse()
+        public void DeepReverse() //ToDo
         {
-            // زحمت بکشید پیاده سازی کنید
-            // اگر نیاز بود میتوانید متد اضافه کنید
+            Tail = Head;
+            Node previous = null;
+            Node curr = Head;
+            Node next = null;
+            while (curr != null)
+            {
+                next = curr.Next;
+                curr.Next = previous;
+                previous = curr;
+                curr = next;
+            }
+            Head = previous;
+            //Tail = next;
+
+            ////Tail = Head;
+            ////while (Tail.Next != null)
+            ////{
+            ////    Tail = Tail.Next;
+            ////}
+            // Tail = curr.Prev;
         }
 
         public IEnumerable<int> GetForwardEnumerator()
