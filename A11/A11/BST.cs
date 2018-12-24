@@ -116,6 +116,7 @@ namespace A11
         public override string ToString()
             => Root?.ToString();
 
+           //******************//
         public virtual void Insert(long key) {}
 
         public virtual void Delete(Node n) { }
@@ -125,6 +126,7 @@ namespace A11
         public Node Next(long key) => null;
 
         public IEnumerable<Node> RangeSearch(long x, long y) => null;
+            //*****************//
 
         public static bool EnsureBSTConsistency(BST.Node r)
         {
@@ -178,9 +180,12 @@ namespace A11
                 parent.Right = newNode;
         }
 
+        //*******//
         protected Node RotateRight(Node x) => null;
 
 
         protected Node RotateLeft(Node y) => null;
+        //*******//
+
     }
 }
