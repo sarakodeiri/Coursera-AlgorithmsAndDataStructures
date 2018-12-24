@@ -17,22 +17,25 @@ namespace E2
         {
             Random rnd = new Random(0);
 
-            // Try one random value
-            nonce = (uint) rnd.Next(0, int.MaxValue);
+            for (int i=0; i<int.MaxValue; i++)
+            {
+                nonce = (uint)i;
 
-            // Copy nonce to the end of data
-            BitConverter.GetBytes(nonce).CopyTo(data, sizeof(uint));
+                BitConverter.GetBytes(nonce).CopyTo(data, sizeof(uint));
 
-            // Calculate Hash
-            byte[] doubleHash = Hasher.ComputeHash(Hasher.ComputeHash(data));
+                byte[] doubleHash = Hasher.ComputeHash(Hasher.ComputeHash(data));
 
-            // How many zero bytes does it have at the end?
-            int zeroBytes = CountEndingZeroBytes(
-                doubleHash,
-                difficultyLevel);
+                int zeroBytes = CountEndingZeroBytes(
+                    doubleHash,
+                    difficultyLevel);
 
-            // Return if the number of zero bytes is enough
-            return zeroBytes >= difficultyLevel;
+                if (zeroBytes >= difficultyLevel)
+                    return true;
+            }
+
+            nonce = 0;
+            return false;
+            
         }
 
         public static int CountEndingZeroBytes(byte[] doubleHash, int? maxBytesToCheck = null)

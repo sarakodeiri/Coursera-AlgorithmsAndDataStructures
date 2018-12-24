@@ -31,18 +31,17 @@ namespace E2
             }
         }
 
-        public int MyHashFunction(string str, int num) //num = previously generated random int
-        {
-            return str.GetHashCode() + num;
-        }
+        //public int MyHashFunction(string str, int num) //num = previously generated random int
+        //{
+        //    return str.GetHashCode() + num;
+        //}
 
         
-        public int PolyHash(string str,
-             int x, int p = 1000000007)
+        public int PolyHash(string str, int x)
         {
             int hash = 0;
             for (int i = str.Length - 1; i >= 0; i--)
-                hash = (hash * x + str[i]) % p;
+                hash = (hash * x + str[i]) % 1000000007;
 
             return hash;
         }
