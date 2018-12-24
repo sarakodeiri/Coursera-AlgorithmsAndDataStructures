@@ -51,7 +51,7 @@ namespace E2.Tests
                 bool trueAnswer = passwords.Contains(pwd);
 
                 // اگر فیلتر بگه توی لیست نیست، ولی واقعا باشه که کلا اشتباه شده
-                Assert.IsTrue(!filterAnswer && trueAnswer);
+                Assert.IsFalse(!filterAnswer && trueAnswer);
 
                 // اگر فیلتر بگه توی لیست هست ولی واقعا نباشه میشه falsePositive
                 if (!trueAnswer && filterAnswer)

@@ -29,9 +29,9 @@ namespace E2
         public void Insert(int key)
         {
             if (Head == null)
-            {
                 Head = Tail = new Node(key);
-            }
+            
+
             else
             {
                 var newNode = new Node(key);
@@ -41,18 +41,39 @@ namespace E2
             }
         }
 
-        public override string ToString() => Head.ToString();
-
-        public void Reverse()
+        public void Reverse() 
         {
-            // زحمت بکشید پیاده سازی کنید
-            // اگر نیاز بود میتوانید متد اضافه کنید
+            if (Head == null) //Base case
+                return;
+            Reverse(Head);
+            (Head, Tail) = (Tail, Head);
+        }
+
+        private void Reverse(Node head) 
+        {
+            if (head.Next != null) //Base case
+                Reverse(head.Next);
+
+            Node next = head.Next;
+            head.Next = head.Prev;
+            head.Prev = next;
+            return;
         }
 
         public void DeepReverse()
         {
-            // زحمت بکشید پیاده سازی کنید
-            // اگر نیاز بود میتوانید متد اضافه کنید
+            Node current = Head;
+            Node next = null;
+
+            while (current != null)
+            {
+                next = current.Next;
+                current.Next = current.Prev;
+                current.Prev = next;
+                current = current.Prev;
+            }
+
+            (Head, Tail) = (Tail, Head);
         }
 
         public IEnumerable<int> GetForwardEnumerator()
@@ -74,5 +95,8 @@ namespace E2
                 it = it.Prev;
             }
         }
+
+        public override string ToString() => Head.ToString();
+
     }
 }
