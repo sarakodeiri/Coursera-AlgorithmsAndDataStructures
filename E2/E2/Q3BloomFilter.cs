@@ -12,9 +12,8 @@ namespace E2
         Func<string, int>[] HashFunctions;
 
 
-        public Q3BloomFilter(int filterSize, int hashFnCount)
+        public Q3BloomFilter(int filterSize, int hashFnCount) //ToDo (First few lines)
         {
-            // زحمت بکشید پیاده سازی کنید
             count = hashFnCount;
             Random rnd = new Random();
             Filter = new BitArray(filterSize);
@@ -23,34 +22,46 @@ namespace E2
             for (int i = 0; i < count; i++)
                 randints[i] = rnd.Next();
 
-            HashFunctions = new Func<string, int>[hashFnCount];
+            HashFunctions = new Func<string, int>[count];
+
             for (int i = 0; i < count; i++)
             {
-                HashFunctions[i] = str => MyHashFunction(str, rnd.Next()); //takes string, converts it into an int (the hash).
+                int x = randints[i];
+                HashFunctions[i] = str => PolyHash(str, x); //takes string, converts it into an int (the hash).
             }
         }
 
-        public int MyHashFunction(string str, int num) //previously generated random int
+        public int MyHashFunction(string str, int num) //num = previously generated random int
         {
             return str.GetHashCode() + num;
+        }
+
+        
+        public int PolyHash(string str,
+             int x, int p = 1000000007)
+        {
+            int hash = 0;
+            for (int i = str.Length - 1; i >= 0; i--)
+                hash = (hash * x + str[i]) % p;
+
+            return hash;
         }
 
         public void Add(string str) //ToDo
         {
             for (int i = 0; i < count; i++)
-                Filter[MyHashFunction(str, randints[i])] = true;
+                Filter[HashFunctions[i](str)] = true;
         }
 
-        public bool Test(string str)
+        public bool Test(string str) //ToDo
         {
-            // زحمت بکشید پیاده سازی کنید
-            int[] hashResult = new int[count];
+            //int[] hashResult = new int[count];
+            //for (int i = 0; i < count; i++)
+            //    hashResult[i] = HashFunctions[i](str);
 
             for (int i = 0; i < count; i++)
-                hashResult[i] = MyHashFunction(str, randints[i]);
-
-            for (int i = 0; i < count; i++)
-                return (Filter[hashResult[i]]);
+                if (!Filter[HashFunctions[i](str)])
+                    return false;
             return true;
         }
     }
