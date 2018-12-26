@@ -23,11 +23,20 @@ namespace A11
             for (int i = 1; i < InOrderResult.Count; i++)
                 if (InOrderResult[i] < InOrderResult[i - 1])
                     return false;
+            
+            return RecursiveCheck(tree.root, int.MinValue, int.MaxValue);
+        }
 
-            foreach (Node n in tree.allNodes)
-                if (n.left != null)
-                    if (n.left.key >= n.key)
-                      return false;
+        private bool RecursiveCheck(Node root, long min, long max)
+        {
+            if (root != null)
+            {
+                if (root.key >= max || root.key < min)
+                    return false;
+                
+                return RecursiveCheck(root.left, min, root.key) && RecursiveCheck(root.right, root.key, max);
+            }
+
             return true;
         }
     }

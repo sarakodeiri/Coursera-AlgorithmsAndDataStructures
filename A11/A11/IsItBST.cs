@@ -21,7 +21,7 @@ namespace A11
             List<long> InOrderResult = new List<long>();
             InOrderResult = binaryTreeTraversals.InOrder(tree.root, InOrderResult);
             for (int i=1; i<InOrderResult.Count; i++)
-                if (InOrderResult[i] < InOrderResult[i - 1])
+                if (InOrderResult[i] <= InOrderResult[i - 1])
                     return false;
             return true;
 
