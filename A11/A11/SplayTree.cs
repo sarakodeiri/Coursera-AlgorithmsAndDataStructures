@@ -5,18 +5,47 @@ namespace A11
 {
     public class SplayTree: BST
     {
-        public SplayTree(Node r=null)
+        public SplayTree(Node r=null) 
             :base(r)
+        //*****************//
         { }
 
-        public void Splay(long key) { }
+        public void Splay(long key) //***************//
+        {
+            Node n = base.Find(key);
+            Splay(n);
+        }
 
-        public override Node Find(long key) => null;
+        public Node SFind(long key) //********************//
+        {
+            Node n = base.Find(key);
+            Splay(n);
+            return n;
+        }
 
-        public override void Insert(long key) { }
+        public override void Insert(long key) //*****************//
+        {
+            base.Insert(key);
+            Splay(key);
+        }
 
-        public override void Delete(long key) { }
-        public override void Delete(Node n) { }
+        public override void Delete(long key) //*****************//
+        {
+            Node n = Find(key);
+            Delete(n);
+        }
+
+        public override void Delete(Node n) //*****************//
+        {
+            Splay(Next(n));
+            Splay(n);
+            var l = n.Left;
+            var r = n.Right;
+            r.Left = l;
+            r.Parent = r;
+            Root = r;
+            r.Parent = null;
+        }
 
         public void Splay(Node n)
         {
@@ -25,7 +54,7 @@ namespace A11
                 if (n.IsLeftChild)
                 {
                     if (n.Parent.Parent == null)
-                        RotateRight(n.Parent);
+                        Rotate(n.Parent, "right");
                     else if (n.Parent.IsLeftChild)
                         ApplyZigZigRight(n);
                     else if (n.Parent.IsRightChild)
@@ -34,7 +63,7 @@ namespace A11
                 else
                 {
                     if (n.Parent.Parent == null)
-                        RotateLeft(n.Parent);
+                        Rotate(n.Parent, "left");
                     else if (n.Parent.IsRightChild)
                         ApplyZigZigLeft(n);
                     else if (n.Parent.IsLeftChild)
@@ -65,8 +94,13 @@ namespace A11
             n.Right = p;
         }
 
-        private void ApplyZigZigLeft(Node q) { }
-        private void ApplyZigZagLeft(Node n) { }
-        private void ApplyZigZigRight(Node n) { }
+        private void ApplyZigZigLeft(Node q) //*****************//
+        { }
+
+        private void ApplyZigZagLeft(Node n) //*****************//
+        { }
+
+        private void ApplyZigZigRight(Node n) //*****************//
+        { }
     }
 }

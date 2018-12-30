@@ -18,8 +18,7 @@ namespace A11
                 return true;
             Tree tree = new Tree(nodes);
             BinaryTreeTraversals binaryTreeTraversals = new BinaryTreeTraversals("TD1");
-            List<long> InOrderResult = new List<long>();
-            InOrderResult = binaryTreeTraversals.InOrder(tree.root, InOrderResult);
+            List<long> InOrderResult = binaryTreeTraversals.InOrder(tree.root);
             for (int i=1; i<InOrderResult.Count; i++)
                 if (InOrderResult[i] <= InOrderResult[i - 1])
                     return false;

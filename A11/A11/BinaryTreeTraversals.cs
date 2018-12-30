@@ -13,9 +13,10 @@ namespace A11
 
         
         
-        public List<long> InOrder(Node root, List<long> result)
+        public List<long> InOrder(Node root)
         {
             Stack<Node> nodeStack = new Stack<Node>();
+            List<long> result = new List<long>();
             Node currentNode = root;
             if (root == null)
                 return null;
@@ -36,9 +37,10 @@ namespace A11
             return result;
         }
 
-        private List<long> PreOrder(Node root, List<long> result)
+        private List<long> PreOrder(Node root)
         {
             Stack<Node> nodeStack = new Stack<Node>();
+            List<long> res = new List<long>();
             nodeStack.Push(root);
             if (root == null)
                 return null;
@@ -47,7 +49,7 @@ namespace A11
             {
 
                 Node peeked = nodeStack.Peek();
-                result.Add(peeked.key);
+                res.Add(peeked.key);
                 nodeStack.Pop();
                 
                 if (peeked.right != null)
@@ -57,12 +59,13 @@ namespace A11
                     nodeStack.Push(peeked.left);
             }
 
-            return result;
+            return res;
         }
 
-        private List<long> PostOrder(Node root, List<long> result)
+        private List<long> PostOrder(Node root)
         {
             Stack<Node> nodeStack = new Stack<Node>();
+            List<long> res = new List<long>();
             nodeStack.Push(root);
             if (root == null)
                 return null;
@@ -74,7 +77,7 @@ namespace A11
                 if (peeked.right == root || peeked.left == root || peeked.left == null && peeked.right == null)
                 {
                     nodeStack.Pop();
-                    result.Add(peeked.key);
+                    res.Add(peeked.key);
                     root = peeked;
                 }
 
@@ -87,7 +90,7 @@ namespace A11
                         nodeStack.Push(peeked.left);
                 }
             }
-            return result;
+            return res;
         }
 
         public long[][] Solve(long[][] nodes)
@@ -99,9 +102,9 @@ namespace A11
             List<long> PostOrderResult = new List<long>();
 
             long[][] finalResult = new long[3][];
-            finalResult[0] = InOrder(tree.root, InOrderResult).ToArray();
-            finalResult[1] = PreOrder(tree.root, PreOrderResult).ToArray();
-            finalResult[2] = PostOrder(tree.root, PostOrderResult).ToArray();
+            finalResult[0] = InOrder(tree.root).ToArray();
+            finalResult[1] = PreOrder(tree.root).ToArray();
+            finalResult[2] = PostOrder(tree.root).ToArray();
 
             return finalResult;
         }
