@@ -345,25 +345,25 @@ namespace A11
 
         protected void Rotate(Node n, string rightOrLeft)
         {
-            Node green = n.Left;
-            Node blue = n.Right;
+            Node originalLeft = n.Left;
+            Node originalRight = n.Right;
             Node p = n.Parent;
             Node red = p.Left;
 
-            Node topParent = p.Parent;
+            Node grandParent = p.Parent;
 
-            UpdateParentWithNewNode(topParent, p, n);
+            UpdateParentWithNewNode(grandParent, p, n);
 
             if (rightOrLeft == "right")
             {
                 n.Right = p;
-                p.Left = blue;
+                p.Left = originalRight;
             }
 
             if (rightOrLeft == "left")
             {
                 n.Left = p;
-                p.Right = green;
+                p.Right = originalLeft;
             }
 
         }

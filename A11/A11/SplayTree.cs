@@ -54,7 +54,7 @@ namespace A11
                 if (n.IsLeftChild)
                 {
                     if (n.Parent.Parent == null)
-                        Rotate(n.Parent, "right");
+                        Rotate(n.Parent, "right"); //why parent?
                     else if (n.Parent.IsLeftChild)
                         ApplyZigZigRight(n);
                     else if (n.Parent.IsRightChild)
@@ -63,7 +63,7 @@ namespace A11
                 else
                 {
                     if (n.Parent.Parent == null)
-                        Rotate(n.Parent, "left");
+                        Rotate(n.Parent, "left"); //why parent?
                     else if (n.Parent.IsRightChild)
                         ApplyZigZigLeft(n);
                     else if (n.Parent.IsLeftChild)
@@ -75,7 +75,28 @@ namespace A11
                 Debugger.Break();
         }
 
-        private void ApplyZigZagRight(Node n)
+        private void ApplyZigZigRight(Node n) //***************** N IS RIGHT CHILD AND PARENT IS LEFT CHILD.
+        {
+            var p = n.Parent;
+            var q = p.Parent;
+            var green = n.Right;
+            var blue = p.Right;
+            var red = n.Left;
+            var black = q.Right;
+
+            var topParent = q.Parent;
+
+            UpdateParentWithNewNode(topParent, q, n);
+
+            n.Left = red;
+            n.Right = p;
+            p.Left = green;
+            p.Right = q;
+            q.Left = blue;
+            q.Right = black;
+        }
+
+        private void ApplyZigZagRight(Node n) // N IS LEFT CHILD AND PARENT IS RIGHT CHILD.
         {
             var green = n.Left;
             var blue = n.Right;
@@ -94,13 +115,47 @@ namespace A11
             n.Right = p;
         }
 
-        private void ApplyZigZigLeft(Node q) //*****************//
-        { }
+        private void ApplyZigZigLeft(Node n) //***************** N IS RIGHT CHILD AND PARENT IS RIGHT CHILD.
+        {
+            var p = n.Parent;
+            var q = p.Parent;
+            var green = p.Left;
+            var blue = n.Left;
+            var red = n.Right;
+            var black = q.Left;
 
-        private void ApplyZigZagLeft(Node n) //*****************//
-        { }
+            var topParent = q.Parent;
 
-        private void ApplyZigZigRight(Node n) //*****************//
-        { }
+            UpdateParentWithNewNode(topParent, q, n);
+
+            q.Left = black;
+            q.Right = green;
+            p.Left = q;
+            p.Right = blue;
+            n.Left = p;
+            n.Right = red;
+
+        }
+
+        private void ApplyZigZagLeft(Node n) //***************** N IS RIGHT CHILD AND PARENT IS LEFT CHILD.
+        {
+            var green = n.Left;
+            var blue = n.Right;
+            var p = n.Parent;
+            var red = p.Left;
+            var q = p.Parent;
+            var black = q.Right;
+
+            var topParent = q.Parent;
+
+            UpdateParentWithNewNode(topParent, q, n);
+
+            n.Left = p;
+            n.Right = q;
+            q.Left = blue;
+            p.Right = green;
+        }
+
+       
     }
 }
