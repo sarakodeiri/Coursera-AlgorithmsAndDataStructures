@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TestCommon;
@@ -12,10 +13,53 @@ namespace A12
         public override string Process(string inStr) =>
             TestTools.Process(inStr, (Func<long, long[][], long[]>)Solve);
 
+        bool[] visited;
+        List<long> result;
+
         public long[] Solve(long nodeCount, long[][] edges)
         {
             // Your code here
-            return new long[] { };
+            List<long>[] adjacencyList = new List<long>[nodeCount];
+            for (int i = 0; i < adjacencyList.Length; i++)
+                adjacencyList[i] = new List<long>();
+
+            visited = new bool[nodeCount];
+            result = new List<long>();
+
+            for (int i = 0; i < visited.Length; i++)
+                visited[i] = false;
+            
+
+
+            for (int i = 0; i < edges.Length; i++)
+            {
+                long first = edges[i][0] - 1;
+                long second = edges[i][1] - 1;
+                adjacencyList[first].Add(second);
+            }
+
+            TopologicalSort(adjacencyList);
+            return result.ToArray();
+        }
+
+        private void TopologicalSort(List<long>[] adjacencyList)
+        {
+            for (int i = 0; i < adjacencyList.Length; i++)
+                if (!visited[i])
+                    DFS(adjacencyList, result, i);
+        }
+
+        private void DFS(List<long>[] adj, List<long> result, long i)
+        {
+            visited[i] = true;
+            for (int j = 0; j < adj[i].Count; j++)
+            {
+                long current = adj[i][j];
+
+                if (!visited[current])
+                    DFS(adj, result, current);
+            }
+            result.Add(i);
         }
 
         public override Action<string, string> Verifier { get; set; } = TopSortVerifier;
