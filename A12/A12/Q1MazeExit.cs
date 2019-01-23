@@ -13,7 +13,6 @@ namespace A12
 
         public long Solve(long nodeCount, long[][] edges, long StartNode, long EndNode)
         {
-            // Your code here
             List<long>[] adjacencyList = new List<long>[nodeCount];
             for (int i = 0; i < adjacencyList.Length; i++)
                 adjacencyList[i] = new List<long>();
