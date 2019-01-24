@@ -39,6 +39,8 @@ namespace A12
             }
 
             TopologicalSort(adjacencyList);
+            
+            result.Reverse();
             return result.ToArray();
         }
 
@@ -59,7 +61,7 @@ namespace A12
                 if (!visited[current])
                     DFS(adj, result, current);
             }
-            result.Add(i);
+            result.Add(i+1);
         }
 
         public override Action<string, string> Verifier { get; set; } = TopSortVerifier;
