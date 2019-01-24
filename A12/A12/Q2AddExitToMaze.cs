@@ -38,12 +38,24 @@ namespace A12
         private int DFS(List<long>[] adj, bool[] visited, int[] CCNum)
         {
             int componentCount = 1;
+            Stack<long> myStack = new Stack<long>();
+
             for (long i=0; i<adj.Length; i++)
             {
                 if (!visited[i])
                 {
-                    Explore(adj, i, visited, CCNum, componentCount);
                     componentCount++;
+                    myStack.Push(i);
+                    while (myStack.Count > 0)
+                    {
+                        long current = myStack.Pop();
+                        CCNum[current] = componentCount;
+                        visited[current] = true;
+
+                        foreach (var v in adj[current])
+                            if (!visited[v])
+                                myStack.Push(v);
+                    }
                 }
             }
 
