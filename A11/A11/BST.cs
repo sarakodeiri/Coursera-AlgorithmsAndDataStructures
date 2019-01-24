@@ -348,11 +348,18 @@ namespace A11
             Node originalLeft = n.Left;
             Node originalRight = n.Right;
             Node p = n.Parent;
-            Node red = p.Left;
+            // Node red = p.Left;
 
-            Node grandParent = p.Parent;
-
-            UpdateParentWithNewNode(grandParent, p, n);
+            if (p != null)
+            {
+                if (p != null & p.Parent != null)
+                {
+                    Node grandParent = p.Parent;
+                    UpdateParentWithNewNode(grandParent, p, n);
+                }
+            }
+            
+            
 
             if (rightOrLeft == "right")
             {

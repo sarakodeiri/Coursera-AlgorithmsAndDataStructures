@@ -37,14 +37,27 @@ namespace A11
 
         public override void Delete(Node n) //*****************//
         {
-            Splay(Next(n));
+            Splay(base.Next(n));
             Splay(n);
             var l = n.Left;
             var r = n.Right;
-            r.Left = l;
-            r.Parent = r;
-            Root = r;
-            r.Parent = null;
+
+            if (r != null)
+            {
+                UpdateParentWithNewNode(r, r.Left, l);
+                Root = r;
+            }
+
+            else if (l != null)
+                Root = l;
+            else
+                Root = l;
+            if (Root != null)
+                Root.Parent = null;
+            //r.Left = l;
+            //r.Parent = r;
+            //Root = r;
+            //r.Parent = null;
         }
 
         public void Splay(Node n)
@@ -75,7 +88,7 @@ namespace A11
                 Debugger.Break();
         }
 
-        private void ApplyZigZigRight(Node n) //***************** N IS RIGHT CHILD AND PARENT IS LEFT CHILD.
+        private void ApplyZigZigRight(Node n) // N IS RIGHT CHILD AND PARENT IS LEFT CHILD.
         {
             var p = n.Parent;
             var q = p.Parent;
@@ -115,7 +128,7 @@ namespace A11
             n.Right = p;
         }
 
-        private void ApplyZigZigLeft(Node n) //***************** N IS RIGHT CHILD AND PARENT IS RIGHT CHILD.
+        private void ApplyZigZigLeft(Node n) // N IS RIGHT CHILD AND PARENT IS RIGHT CHILD.
         {
             var p = n.Parent;
             var q = p.Parent;
@@ -137,7 +150,7 @@ namespace A11
 
         }
 
-        private void ApplyZigZagLeft(Node n) //***************** N IS RIGHT CHILD AND PARENT IS LEFT CHILD.
+        private void ApplyZigZagLeft(Node n) // N IS RIGHT CHILD AND PARENT IS LEFT CHILD.
         {
             var green = n.Left;
             var blue = n.Right;

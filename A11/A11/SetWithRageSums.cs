@@ -9,7 +9,7 @@ namespace A11
         public SetWithRageSums(string testDataName) : base(testDataName)
         {
             CommandDict =
-                        new Dictionary<char, Func<string, string>>()
+                        new Dictionary<char, Func<string, SplayTree, string>>()
                         {
                             ['+'] = Add,
                             ['-'] = Del,
@@ -21,7 +21,7 @@ namespace A11
         public override string Process(string inStr) =>
             TestTools.Process(inStr, (Func<string[], string[]>)Solve);
 
-        public readonly Dictionary<char, Func<string, string>> CommandDict;
+        public readonly Dictionary<char, Func<string, SplayTree, string>> CommandDict;
 
         protected const long M = 1_000_000_001;
 
@@ -29,8 +29,11 @@ namespace A11
 
         protected List<long> Data;
 
+        SplayTree splayTree;
+
         public string[] Solve(string[] lines)
         {
+            splayTree = new SplayTree();
             X = 0;
             Data = new List<long>();
             List<string> result = new List<string>();
@@ -38,7 +41,7 @@ namespace A11
             {
                 char cmd = line[0];
                 string args = line.Substring(1).Trim();
-                var output = CommandDict[cmd](args);
+                var output = CommandDict[cmd](args, splayTree); //
                 if (null != output)
                     result.Add(output);
             }
@@ -48,54 +51,52 @@ namespace A11
         private long Convert(long i)
             => i = (i + X) % M;       
 
-        private string Add(string arg)
+        private string Add(string arg, SplayTree splayTree)
         {
             long i = Convert(long.Parse(arg));
-            int idx = Data.BinarySearch(i);
-            if (idx < 0)
-                Data.Insert(~idx, i);
+            splayTree.Insert(i);
 
             return null;
         }
 
-        private string Del(string arg)
+        private string Del(string arg, SplayTree splayTree)
         {
             long i = Convert(long.Parse(arg));
-            int idx = Data.BinarySearch(i);
-            if (idx >= 0)
-                Data.RemoveAt(idx);
+            splayTree.Delete(i);
+
 
             return null;
         }
 
-        private string Find(string arg)
+        private string Find(string arg, SplayTree splayTree)
         {
             long i = Convert(int.Parse(arg));
-            int idx = Data.BinarySearch(i);
-            return idx < 0 ?
-                "Not found" : "Found";
+            var findResult = splayTree.Find(i);
+            if (findResult != null)
+            {
+                if (findResult.Key == i)
+                    return "Found";
+                else
+                    return "Not found";
+            }
+            return "Not found";
         }
 
-        private string Sum(string arg)
+        private string Sum(string arg, SplayTree splayTree)
         {
             var toks = arg.Split();
             long l = Convert(long.Parse(toks[0]));
             long r = Convert(long.Parse(toks[1]));
 
-            l = Data.BinarySearch(l);
-            if (l < 0)
-                l = ~l;
-
-            r = Data.BinarySearch(r);
-            if (r < 0)
-                r = (~r -1); 
-            // If not ~r will point to a position with
-            // a larger number. So we should not include 
-            // that position in our search.
-
             long sum = 0;
-            for (int i = (int)l; i <= r && i < Data.Count; i++)
-                sum += Data[i];
+
+            var lowerBound = splayTree.Find(l);
+            while (!(lowerBound.Key > r))
+            {
+                sum += lowerBound.Key;
+                lowerBound = splayTree.Next(lowerBound);
+            }
+            
 
             X = sum;
 
