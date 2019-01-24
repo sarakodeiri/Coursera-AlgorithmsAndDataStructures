@@ -18,7 +18,6 @@ namespace A12
 
         public long[] Solve(long nodeCount, long[][] edges)
         {
-            // Your code here
             List<long>[] adjacencyList = new List<long>[nodeCount];
             for (int i = 0; i < adjacencyList.Length; i++)
                 adjacencyList[i] = new List<long>();
@@ -29,8 +28,6 @@ namespace A12
             for (int i = 0; i < visited.Length; i++)
                 visited[i] = false;
             
-
-
             for (int i = 0; i < edges.Length; i++)
             {
                 long first = edges[i][0] - 1;

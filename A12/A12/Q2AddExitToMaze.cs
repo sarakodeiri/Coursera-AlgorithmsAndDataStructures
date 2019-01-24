@@ -27,6 +27,7 @@ namespace A12
             {
                 long first = edges[i][0] - 1;
                 long second = edges[i][1] - 1;
+                //Graph is undirected
                 adjacencyList[first].Add(second);
                 adjacencyList[second].Add(first);
             }

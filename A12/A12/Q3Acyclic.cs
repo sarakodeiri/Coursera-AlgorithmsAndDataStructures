@@ -12,7 +12,7 @@ namespace A12
             TestTools.Process(inStr, (Func<long, long[][], long>)Solve);
 
         bool[] visited;
-        bool[] myStack;
+        bool[] keepTrack;
 
         public long Solve(long nodeCount, long[][] edges)
         {
@@ -21,11 +21,11 @@ namespace A12
                 adjacencyList[i] = new List<long>();
 
             visited = new bool[nodeCount];
-            myStack = new bool[nodeCount];
+            keepTrack = new bool[nodeCount];
             for (int i = 0; i < visited.Length; i++)
             {
                 visited[i] = false;
-                myStack[i] = false;
+                keepTrack[i] = false;
             }
 
 
@@ -33,6 +33,7 @@ namespace A12
             {
                 long first = edges[i][0] - 1;
                 long second = edges[i][1] - 1;
+                //Graph is directed:
                 adjacencyList[first].Add(second);
             }
 
@@ -47,16 +48,16 @@ namespace A12
             if (!visited[i])
             {
                 visited[i] = true;
-                myStack[i] = true;
+                keepTrack[i] = true;
 
                 for (int j = 0; j < adj[i].Count; j++)
                 {
                     long current = adj[i][j];
-                    if ((!visited[current] && IsAcyclic(adj, current)) || myStack[current])
+                    if ((!visited[current] && IsAcyclic(adj, current)) || keepTrack[current])
                         return true;
                 }
             }
-            myStack[i] = false;
+            keepTrack[i] = false;
             return false;
         }
     }

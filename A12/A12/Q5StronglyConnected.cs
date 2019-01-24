@@ -26,7 +26,6 @@ namespace A12
                 reverseAdjacencyList[i] = new List<long>();
             }
 
-
             visited = new bool[nodeCount];
             order = new List<long>();
 
@@ -51,7 +50,7 @@ namespace A12
                 if (!visited[i])
                     DFS(i, reverseAdjacencyList);
             order.Reverse();
-            //fill(visited.begin(), visited.end(), 0);
+
             for (int i = 0; i < visited.Length; i++)
                 visited[i] = false;
 
@@ -67,7 +66,7 @@ namespace A12
         private void DFS(long start, List<long>[] reverseAdjacencyList)
         {
             visited[start] = true;
-            for (int i = 0; i < reverseAdjacencyList.Length; i++)
+            for (int i = 0; i < reverseAdjacencyList[start].Count; i++)
                 if (!visited[reverseAdjacencyList[start][i]])
                     DFS(reverseAdjacencyList[start][i], reverseAdjacencyList);
             order.Add(start);
