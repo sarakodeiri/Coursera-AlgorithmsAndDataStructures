@@ -30,6 +30,7 @@ namespace A2
                 if (numbers[i] > numbers[index])
                     index = i;
 
+            // چه جالب. من اینو بلد نبودم 👏🏻
             (numbers[index], numbers[numbers.Count - 1]) = (numbers[numbers.Count() - 1], numbers[index]);
 
             index = 0;

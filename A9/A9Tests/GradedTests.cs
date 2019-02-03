@@ -9,9 +9,9 @@ using TestCommon;
 
 namespace A9.Tests
 {
-    [TestClass()]
+    [TestClass()]//Grade:A9:34
     public class GradedTests
-    {
+    {        
         [TestMethod(), Timeout(3000)]
         [DeploymentItem("TestData", "A9_TestData")]
         public void SolveTest()
@@ -19,7 +19,7 @@ namespace A9.Tests
             Processor[] problems = new Processor[] {
                 //new ConvertIntoHeap("TD1")
                 new ParallelProcessing("TD2")
-               // new MergingTables("TD3")
+               // new MergingTables("TD3") 😱
             };
 
             foreach (var p in problems)

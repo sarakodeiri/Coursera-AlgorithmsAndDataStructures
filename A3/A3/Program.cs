@@ -78,7 +78,7 @@ namespace A3
             long Smaller = b;
 
             if (Bigger < Smaller)
-                (Bigger, Smaller) = (Smaller, Bigger);
+                (Bigger, Smaller) = (Smaller, Bigger); //😊
 
             for (long i=Smaller; i>0; i--)
             {
@@ -156,7 +156,7 @@ namespace A3
         public static long Fibonacci_Partial_Sum(long a, long b)
         {
             if (a > b)
-                (a, b) = (b, a);
+                (a, b) = (b, a); // 😊😊
 
             long HighRange = Fibonacci_Sum(b);
             long LowRange = Fibonacci_Sum(a - 1);

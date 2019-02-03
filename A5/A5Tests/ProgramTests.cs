@@ -9,9 +9,9 @@ using TestCommon;
 
 namespace A5.Tests
 {
-    [TestClass()]
+    [TestClass()]//Grade:A5:100
     public class ProgramTests
-    {
+    {        
         [TestMethod(),Timeout(1000)]
         [DeploymentItem(@"TestData", "A5_TestData")]
         public void Graded_BinarySearch1Test()

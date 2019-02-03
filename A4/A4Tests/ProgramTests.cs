@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace A4.Tests
 {
-    [TestClass()]
+    [TestClass()]//Grade:A4:100
     public class ProgramTests
-    {
-
+    {        
         [TestMethod(), Timeout(1000)]
         [DeploymentItem(@"TestData", "A4_TestData")]
         public void ChangingMoney1Test()

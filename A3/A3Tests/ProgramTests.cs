@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace A3.Tests
 {
-    [TestClass()]
+    [TestClass()]//Grade:A3:100
     public class ProgramTests
     {
-
+        //Grade:A3:100
         [TestMethod()]
         [DeploymentItem("TestData", "A3_TestData")]
         public void Graded_FibonacciTest()

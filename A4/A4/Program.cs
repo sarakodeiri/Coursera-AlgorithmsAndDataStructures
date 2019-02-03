@@ -111,7 +111,7 @@ namespace A4
 
         public static long CollectingSignatures4(long tenantCount, long[] startTimes, long[] endTimes)
         {
-            var timePeriods = new List<(long startTime, long endTime)>();
+            var timePeriods = new List<(long startTime, long endTime)>(); // خوب وارد شدینا 👌
 
             for (int i = 0; i < tenantCount; i++)
                 timePeriods.Add((startTimes[i], endTimes[i]));

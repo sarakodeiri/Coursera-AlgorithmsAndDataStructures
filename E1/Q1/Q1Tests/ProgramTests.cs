@@ -39,9 +39,9 @@ namespace Q1.Tests
                 }
             });
         }
-
+        
         [TestMethod(), Timeout(1000)]
-        public void Graded_FastLM_GetCountTest()
+        public void Graded_FastLM_GetCountTest()//Grade:E1.1:25
         {
             Validator("Q1", (inFile, outFile) =>
             {
@@ -57,8 +57,9 @@ namespace Q1.Tests
             });
         }
 
+        //Grade:E1.2:25
         [TestMethod]
-        public void Graded_GetCandidatesTest()
+        public void Graded_GetCandidatesTest()//Grade:E1.2:25
         {
             Validator("Q2", (inFile, outFile) =>
             {
@@ -99,8 +100,9 @@ namespace Q1.Tests
             });
         }
 
+        //Grade:E1.3:30
         [TestMethod, Timeout(5000)]
-        public void Graded_SpellCheckTest()
+        public void Graded_SpellCheckTest()//Grade:E1.3:0
         {
             Assert.Inconclusive();
             SpellChecker spellChecker = new SpellChecker(FastLM);
