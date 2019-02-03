@@ -17,9 +17,9 @@ namespace A9.Tests
         public void SolveTest()
         {
             Processor[] problems = new Processor[] {
-                //new ConvertIntoHeap("TD1")
-                new ParallelProcessing("TD2")
-               // new MergingTables("TD3")
+                new ConvertIntoHeap("TD1"),
+                new ParallelProcessing("TD2"),
+                new MergingTables("TD3")
             };
 
             foreach (var p in problems)
