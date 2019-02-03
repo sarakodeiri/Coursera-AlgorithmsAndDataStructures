@@ -57,7 +57,6 @@ namespace Q1.Tests
             });
         }
 
-        //Grade:E1.2:25
         [TestMethod]
         public void Graded_GetCandidatesTest()//Grade:E1.2:25
         {
@@ -100,9 +99,8 @@ namespace Q1.Tests
             });
         }
 
-        //Grade:E1.3:30
         [TestMethod, Timeout(5000)]
-        public void Graded_SpellCheckTest()//Grade:E1.3:0
+        public void Graded_SpellCheckTest()//Grade:E1.3:30
         {
             Assert.Inconclusive();
             SpellChecker spellChecker = new SpellChecker(FastLM);

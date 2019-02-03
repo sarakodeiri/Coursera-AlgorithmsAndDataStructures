@@ -12,7 +12,6 @@ namespace A12.Tests
     [TestClass()]//Grade:A12:100
     public class GradedTests
     {
-        //Grade:A12:100
         [TestMethod(), Timeout(30000)]
         [DeploymentItem("TestData", "A12_TestData")]
         public void SolveTest()

@@ -19,7 +19,6 @@ namespace A1.Tests
             Assert.AreEqual(3, Program.Add(1, 2));
         }
 
-        //Grade:A1:100
         [TestMethod(), Timeout(1000)]
         [DeploymentItem("TestData", "A1_TestData")]
         public void GradedTest() //Grade:A1:100

@@ -9,7 +9,6 @@ using TestCommon;
 
 namespace A6.Tests
 {
-    //Grade:A6:100
     [TestClass()]//Grade:A6:100
     public class GradedTests
     {

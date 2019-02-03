@@ -11,10 +11,9 @@ namespace A2.Tests
     [TestClass()]
     public class ProgramTests
     {
-        //Grade:A2:100
         [TestMethod()]
         [DeploymentItem("TestData", "A2_TestData")]
-        public void GradedTest_Correctness() //Graded:A2:100
+        public void GradedTest_Correctness() //Grade:A2:100
         {
             TestCommon.TestTools.RunLocalTest("A2", Program.Process);
         }
